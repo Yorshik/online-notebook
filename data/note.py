@@ -13,7 +13,6 @@ class Note(SqlAlchemyBase, UserMixin):
     name = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now())
     the_folder = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('folders.id'))
-    folder = relationship('folders')
     hashed_password = sqlalchemy.Column(sqlalchemy.String, default='none')
 
     def set_password(self, password):

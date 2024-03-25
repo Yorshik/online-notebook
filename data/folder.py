@@ -13,8 +13,7 @@ class Folder(SqlAlchemyBase, UserMixin):
     name = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now())
     owner = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('users.id'))
-    user = relationship('User')
-    hashed_password = sqlalchemy.Column(sqlalchemy.String, default='none')
+    hashed_password = sqlalchemy.Column(sqlalchemy.String, default=generate_password_hash('none'))
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

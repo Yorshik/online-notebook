@@ -13,16 +13,20 @@
 <header>
     <nav class="navbar navbar-light bg-light">
         <h1>Онлайн записная книжка</h1>
+
+        {% if current_user.is_authenticated %}
             <select onchange="window.location.href=this.value" class="navbar-brand">
-                <option value="" selected disabled>Кирилл</option>
+                <option value="" selected disabled>{{ current_user.name }}</option>
                 <option value="/main">Главная страница</option>
                 <option value="/account">Аккаунт</option>
                 <option value="/logout">Выйти</option>
             </select>
+        {% else %}
         <p>
             <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
             <a class="btn btn-success" href="/login">Войти</a>
         </p>
+        {% endif %}
     </nav>
 </header>
 <main role="main" class="container">
