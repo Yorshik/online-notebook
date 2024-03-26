@@ -19,3 +19,14 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
+
+class ResetPass(FlaskForm):
+    pass
+
+
+class NoteForm(FlaskForm):
+    pass
+
+
+class FolderForm(FlaskForm):
+    pass

@@ -5,7 +5,7 @@ from data.user import User
 from data.note import Note
 from data.folder import Folder
 import datetime
-from flask_login import login_user, logout_user, LoginManager
+from flask_login import login_user, logout_user, LoginManager, login_required
 
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
@@ -20,6 +20,11 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/index')
 def index():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/about')
+def about():
     return '<h1>Unavailable</h1>'
 
 
@@ -61,22 +66,55 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     return '<h1>Unavailable</h1>'
 
 
 @app.route('/main')
+@login_required
 def main():
     return '<h1>Unavailable</h1>'
 
 
 @app.route('/account')
+@login_required
 def account():
     return '<h1>Unavailable</h1>'
 
 
 @app.route('/reset_pass')
 def reset_pass():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/add_note', methods=["GET", 'POST'])
+def add_note():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/add_folder', methods=["GET", 'POST'])
+def add_folder():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/note/<int:num>')
+def note(num):
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/folder/<int:num>')
+def folder(num):
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/delete_note/<int:num>')
+def delete_note(num):
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/delete_folder/<int:num>')
+def delete_folder(num):
     return '<h1>Unavailable</h1>'
 
 
