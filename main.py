@@ -1,11 +1,13 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect
 from data.db_session import global_init, create_session
-from forms import *
+from scripts.forms import *
 from data.user import User
-from data.note import Note
 from data.folder import Folder
+from data.note import Note
 import datetime
-from flask_login import login_user, logout_user, LoginManager
+from flask_login import login_user, LoginManager, login_required
+# from scripts.send_message import send_msg
+# send_msg('kirkidzapp@gmail.com')
 
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
@@ -20,6 +22,11 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/index')
 def index():
+    return render_template('index.html')
+
+
+@app.route('/about_us')
+def about():
     return '<h1>Unavailable</h1>'
 
 
@@ -61,22 +68,55 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
     return '<h1>Unavailable</h1>'
 
 
 @app.route('/main')
+@login_required
 def main():
     return '<h1>Unavailable</h1>'
 
 
 @app.route('/account')
+@login_required
 def account():
     return '<h1>Unavailable</h1>'
 
 
 @app.route('/reset_pass')
 def reset_pass():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/add_note', methods=["GET", 'POST'])
+def add_note():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/add_folder', methods=["GET", 'POST'])
+def add_folder():
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/note/<int:num>')
+def note(num):
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/folder/<int:num>')
+def folder(num):
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/delete_note/<int:num>')
+def delete_note(num):
+    return '<h1>Unavailable</h1>'
+
+
+@app.route('/delete_folder/<int:num>')
+def delete_folder(num):
     return '<h1>Unavailable</h1>'
 
 
