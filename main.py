@@ -25,9 +25,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/about_us')
+@app.route('/about-us')
 def about():
-    return '<h1>Unavailable</h1>'
+    return render_template('about-us.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])

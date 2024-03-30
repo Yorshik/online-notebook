@@ -80,7 +80,7 @@ ol {
 -----------------------*/
 
 .section-title h2 {
-	color: #ffffff;
+	color: #2C4942;
 	font-size: 48px;
 	font-weight: 600;
 	margin-bottom: 18px;
@@ -88,7 +88,7 @@ ol {
 }
 
 .section-title p {
-	color: #ffffff;
+	color: #2C4942;
 	margin-bottom: 0;
 }
 
@@ -129,7 +129,7 @@ ol {
 	font-family: "Oswald", sans-serif;
 	font-weight: 600;
 	padding: 0 12px;
-	color: #ffffff;
+	color: #2C4942;
 	letter-spacing: 2px;
 	text-transform: uppercase;
 	text-align: center;
@@ -384,7 +384,7 @@ ol {
 }
 
 .nav-menu .mainmenu ul li a {
-	color: #ffffff;
+	color: #2C4942;
 	font-size: 16px;
 	text-transform: uppercase;
 	font-weight: 500;
@@ -450,7 +450,7 @@ ol {
 	text-align: left;
 	text-transform: capitalize;
 	padding: 10px 20px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .nav-menu .mainmenu ul li .dropdown li a:hover {
@@ -468,7 +468,7 @@ ol {
 .top-social a {
 	display: inline-block;
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	margin-left: 20px;
 }
 
@@ -514,7 +514,7 @@ ol {
 	transform: translateY(-30px);
 	line-height: 30px;
 	font-size: 60px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .hero-items .owl-nav button[type=button].owl-next {
@@ -533,7 +533,7 @@ ol {
 .hero-items .owl-dots button.owl-dot {
 	height: 14px;
 	width: 14px;
-	background: #ffffff;
+	background: #2C4942;
 	border-radius: 50%;
 	margin-right: 15px;
 	position: relative;
@@ -549,7 +549,7 @@ ol {
 	top: -3px;
 	height: 20px;
 	width: 20px;
-	border: 1px solid #ffffff;
+	border: 1px solid #2C4942;
 	content: "";
 	border-radius: 50%;
 	opacity: 0;
@@ -581,7 +581,7 @@ ol {
 }
 
 .single-hero-item .hero-text h2 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	font-family: "Nunito Sans", sans-serif;
 	font-size: 60px;
@@ -592,7 +592,7 @@ ol {
 }
 
 .single-hero-item .hero-text h1 {
-	color: #ffffff;
+	color: #2C4942;
 	font-size: 90px;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -644,14 +644,14 @@ ol {
 }
 
 .feature-item h3 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 14px;
 }
 
 .feature-item p {
-	color: #ffffff;
+	color: #2C4942;
 	margin-bottom: 22px;
 }
 
@@ -674,7 +674,7 @@ ol {
 .about-text h2 {
 	font-size: 48px;
 	font-weight: 500;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	margin-bottom: 36px;
 }
@@ -682,13 +682,13 @@ ol {
 .about-text p.short-details {
 	font-size: 20px;
 	font-weight: 600;
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 28px;
 	margin-bottom: 20px;
 }
 
 .about-text p.long-details {
-	color: #ffffff;
+	color: #2C4942;
 	margin-bottom: 40px;
 }
 
@@ -754,13 +754,13 @@ ol {
 
 .classes-item h4 {
 	font-weight: 600;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	margin-bottom: 20px;
 }
 
 .classes-item p {
-	color: #ffffff;
+	color: #2C4942;
 	margin-bottom: 38px;
 }
 
@@ -798,7 +798,7 @@ ol {
 	font-weight: 600;
 	font-family: "Oswald", sans-serif;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #2C4942;
 	display: inline-block;
 	margin-right: 80px;
 	cursor: pointer;
@@ -851,7 +851,7 @@ ol {
 
 .classtime-table table thead tr th {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	font-family: "Oswald", sans-serif;
@@ -894,19 +894,19 @@ ol {
 }
 
 .classtime-table table tbody tr td.hover-bg:hover h6 {
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .classtime-table table tbody tr td.workout-time {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	font-family: "Oswald", sans-serif;
 }
 
 .classtime-table table tbody tr td span {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	display: block;
 	margin-bottom: 7px;
 }
@@ -935,7 +935,7 @@ ol {
 }
 
 .price-section .section-title p {
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .price-section .toggle-option {
@@ -948,7 +948,7 @@ ol {
 	display: inline-block;
 	font-size: 16px;
 	font-family: "Oswald", sans-serif;
-	color: #ffffff;
+	color: #2C4942;
 	letter-spacing: 1px;
 	margin-right: 10px;
 }
@@ -1006,7 +1006,7 @@ ol {
 }
 
 .single-price-plan {
-	background: #ffffff;
+	background: #2C4942;
 	text-align: center;
 	padding: 45px 0 50px;
 	position: relative;
@@ -1073,7 +1073,7 @@ ol {
 }
 
 .single-price-plan .primary-btn.price-btn:hover {
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .single-price-plan .primary-btn.price-btn:hover:after {
@@ -1096,7 +1096,7 @@ ol {
 	position: absolute;
 	left: 69px;
 	top: 15px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 /*---------------------
@@ -1127,7 +1127,7 @@ ol {
 
 .choose-item h5 {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-top: 20px;
@@ -1155,7 +1155,7 @@ ol {
 
 .video-section .video-text h2 {
 	font-size: 60px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 42px;
@@ -1166,7 +1166,7 @@ ol {
 	height: 60px;
 	width: 60px;
 	font-size: 22px;
-	background: #ffffff;
+	background: #2C4942;
 	text-align: center;
 	line-height: 62px;
 	color: #e4381C;
@@ -1181,7 +1181,7 @@ ol {
 	top: -5px;
 	width: 70px;
 	height: 70px;
-	background: #ffffff;
+	background: #2C4942;
 	opacity: 0.3;
 	border-radius: 50%;
 	content: "";
@@ -1251,13 +1251,13 @@ ol {
 
 .blog-item .blog-text .categories {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 }
 
 .blog-item .blog-text h5 {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	margin-top: 10px;
 }
@@ -1275,7 +1275,7 @@ ol {
 
 .blog-item.instagram-item .instagram-text .categories {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	position: relative;
 }
@@ -1289,7 +1289,7 @@ ol {
 
 .blog-item.instagram-item .instagram-text h5 {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	margin-top: 10px;
 	text-transform: uppercase;
@@ -1314,7 +1314,7 @@ ol {
 	height: 60px;
 	width: 60px;
 	font-size: 22px;
-	background: #ffffff;
+	background: #2C4942;
 	text-align: center;
 	line-height: 62px;
 	color: #e4381C;
@@ -1329,7 +1329,7 @@ ol {
 	top: -5px;
 	width: 70px;
 	height: 70px;
-	background: #ffffff;
+	background: #2C4942;
 	opacity: 0.3;
 	border-radius: 50%;
 	content: "";
@@ -1350,23 +1350,23 @@ ol {
 }
 
 .cta-section .cta-text h3 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 10px;
 }
 
 .cta-section .cta-text p {
-	color: #ffffff;
+	color: #2C4942;
 	margin-bottom: 0;
 }
 
 .cta-section .primary-btn.cta-btn {
 	float: right;
-	border-color: #ffffff;
-	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #ffffff), to(#ffffff)), -webkit-gradient(linear, left top, right top, from(#ffffff), color-stop(0%, #ffffff));
-	background-image: -o-linear-gradient(left, #ffffff 100%, #ffffff 100%), -o-linear-gradient(left, #ffffff 0%, #ffffff 0%);
-	background-image: linear-gradient(to right, #ffffff 100%, #ffffff 100%), linear-gradient(to right, #ffffff 0%, #ffffff 0%);
+	border-color: #2C4942;
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #2C4942), to(#2C4942)), -webkit-gradient(linear, left top, right top, from(#2C4942), color-stop(0%, #2C4942));
+	background-image: -o-linear-gradient(left, #2C4942 100%, #2C4942 100%), -o-linear-gradient(left, #2C4942 0%, #2C4942 0%);
+	background-image: linear-gradient(to right, #2C4942 100%, #2C4942 100%), linear-gradient(to right, #2C4942 0%, #2C4942 0%);
 	margin-top: 14px;
 }
 
@@ -1386,7 +1386,7 @@ ol {
 .map-contact-detalis {
 	width: 420px;
 	padding: 40px;
-	background: #ffffff;
+	background: #2C4942;
 	position: absolute;
 	right: 120px;
 	top: 80px;
@@ -1543,14 +1543,14 @@ ol {
 }
 
 .footer-logo-item .social-links h6 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 20px;
 }
 
 .footer-logo-item .social-links a {
-	color: #ffffff;
+	color: #2C4942;
 	display: inline-block;
 	font-size: 14px;
 	margin-right: 32px;
@@ -1567,7 +1567,7 @@ ol {
 .footer-widget h5 {
 	font-size: 20px;
 	font-weight: 500;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	margin-bottom: 40px;
 }
@@ -1582,7 +1582,7 @@ ol {
 }
 
 .footer-widget .footer-blog .fb-item h6 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	margin-bottom: 12px;
 	-webkit-transition: all 0.3s;
@@ -1612,7 +1612,7 @@ ol {
 	font-size: 16px;
 	font-family: "Oswald", sans-serif;
 	font-weight: 500;
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 18px;
 	margin-bottom: 22px;
 }
@@ -1635,7 +1635,7 @@ ol {
 }
 
 .footer-widget .footer-info li span {
-	color: #ffffff;
+	color: #2C4942;
 	display: block;
 	font-family: "Oswald", sans-serif;
 	font-weight: 500;
@@ -1675,14 +1675,14 @@ ol {
 .breadcrumb-text h2 {
 	font-size: 48px;
 	font-weight: 500;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	margin-bottom: 14px;
 }
 
 .breadcrumb-text .breadcrumb-controls a {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	margin-right: 15px;
 	position: relative;
 }
@@ -1694,7 +1694,7 @@ ol {
 	content: "";
 	font-family: "FontAwesome";
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .breadcrumb-text .breadcrumb-controls a i {
@@ -1703,7 +1703,7 @@ ol {
 
 .breadcrumb-text .breadcrumb-controls span {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 /*---------------------
@@ -1717,7 +1717,7 @@ ol {
 }
 
 .aboutus-page-text .section-title {
-	text-align: center;
+	text-align: left;
 	margin-bottom: 45px;
 }
 
@@ -1726,39 +1726,39 @@ ol {
 }
 
 .aboutus-page-text .about-us h4 {
-	color: #ffffff;
+	color: #000000;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 30px;
 }
 
 .aboutus-page-text .about-us p {
-	color: #ffffff;
+	color: #000000;
 	line-height: 26px;
 }
 
 .aboutus-page-text .about-quality h4 {
-	color: #ffffff;
+	color: #000000;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 30px;
 }
 
 .aboutus-page-text .about-quality p {
-	color: #ffffff;
+	color: #000000;
 	line-height: 22px;
 }
 
 .aboutus-page-text .about-quality ul li {
 	list-style: none;
 	font-size: 16px;
-	color: #ffffff;
+	color: #000000;
 	line-height: 26px;
 	margin-bottom: 10px;
 }
 
 .aboutus-page-text .about-quality ul li i {
-	color: #e4381C;
+	color: #000000;
 	display: inline-block;
 	margin-right: 9px;
 }
@@ -1786,7 +1786,7 @@ ol {
 }
 
 .testimonial-slider .ts-item h4 {
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 34px;
 	font-family: "Nunito Sans", sans-serif;
 	margin-bottom: 20px;
@@ -1797,14 +1797,14 @@ ol {
 }
 
 .testimonial-slider .ts-item .author-name h5 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	margin-bottom: 4px;
 }
 
 .testimonial-slider .ts-item .author-name span {
 	display: inline-block;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .testimonial-slider .ts-item .author-pic img {
@@ -1825,7 +1825,7 @@ ol {
 .testimonial-slider .owl-dots button.owl-dot {
 	height: 4px;
 	width: 20px;
-	background: #ffffff;
+	background: #2C4942;
 	border-radius: 50px;
 	margin-right: 10px;
 }
@@ -1890,7 +1890,7 @@ ol {
 	height: 40px;
 	font-size: 16px;
 	color: #afb4bf;
-	background: #ffffff;
+	background: #2C4942;
 	margin-bottom: 10px;
 	border-radius: 2px;
 	-webkit-transition: all 0.3s;
@@ -1901,7 +1901,7 @@ ol {
 .trainer-item .ti-pic .ti-links a:hover {
 	background: -o-linear-gradient(45deg, #e16521, #e4381C);
 	background: linear-gradient(45deg, #e16521, #e4381C);
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .trainer-item .ti-pic .trainer-text {
@@ -1920,13 +1920,13 @@ ol {
 
 .trainer-item .ti-pic .trainer-text h5 {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 }
 
 .trainer-item .ti-pic .trainer-text h5 span {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	font-family: "Nunito Sans", sans-serif;
 }
 
@@ -1951,7 +1951,7 @@ ol {
 	font-weight: 500;
 	font-family: "Oswald", sans-serif;
 	text-transform: uppercase;
-	color: #ffffff;
+	color: #2C4942;
 	display: inline-block;
 	margin-right: 45px;
 	cursor: pointer;
@@ -2057,13 +2057,13 @@ ol {
 .gallery-item .gi-hover a {
 	height: 60px;
 	width: 60px;
-	border: 2px solid #ffffff;
+	border: 2px solid #2C4942;
 	border-radius: 50%;
 	text-align: center;
 	line-height: 60px;
 	font-size: 24px;
 	display: inline-block;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .gallery-item .gi-hover a:first-child {
@@ -2071,7 +2071,7 @@ ol {
 }
 
 .gallery-item .gi-hover h6 {
-	color: #ffffff;
+	color: #2C4942;
 	margin-top: 25px;
 }
 
@@ -2101,13 +2101,13 @@ ol {
 
 .blog-option .blog-pagination {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	float: left;
 }
 
 .blog-option .blog-pagination a {
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	display: inline-block;
 	height: 40px;
 	width: 40px;
@@ -2148,7 +2148,7 @@ ol {
 .blog-option .blog-option-right .blog-result {
 	display: inline-block;
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 42px;
 	margin-right: 39px;
 }
@@ -2163,7 +2163,7 @@ ol {
 
 .blog-option .blog-option-right .show-result p {
 	display: inline-block;
-	color: #ffffff;
+	color: #2C4942;
 	font-size: 14px;
 	font-size: 14px;
 	padding: 8px 0 0 20px;
@@ -2175,7 +2175,7 @@ ol {
 	background: transparent;
 	border: none;
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	padding-right: 45px;
 	padding-left: 0;
 }
@@ -2207,7 +2207,7 @@ ol {
 }
 
 .bs-hero-text h2 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	line-height: 48px;
 	text-transform: uppercase;
@@ -2216,7 +2216,7 @@ ol {
 
 .bs-hero-text ul li {
 	list-style: none;
-	color: #ffffff;
+	color: #2C4942;
 	font-size: 16px;
 	display: inline-block;
 	margin-right: 58px;
@@ -2229,7 +2229,7 @@ ol {
 	top: 0;
 	content: "|";
 	font-size: 16px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .bs-hero-text ul li:last-child {
@@ -2254,7 +2254,7 @@ ol {
 }
 
 .blog-single-text .blog-text p {
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 28px;
 }
 
@@ -2272,13 +2272,13 @@ ol {
 }
 
 .blog-single-text .blog-title h4 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	margin-bottom: 18px;
 }
 
 .blog-single-text .blog-title p {
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 28px;
 }
 
@@ -2298,7 +2298,7 @@ ol {
 
 .blog-single-text .blog-quote .quote-text {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 600;
 	font-style: italic;
 	line-height: 28px;
@@ -2307,7 +2307,7 @@ ol {
 
 .blog-single-text .blog-quote h5 {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 }
 
@@ -2316,13 +2316,13 @@ ol {
 }
 
 .blog-single-text .blog-more-title h4 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	margin-bottom: 18px;
 }
 
 .blog-single-text .blog-more-title p {
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 28px;
 }
 
@@ -2339,7 +2339,7 @@ ol {
 	font-size: 13px;
 	color: #252525;
 	text-transform: uppercase;
-	background: #ffffff;
+	background: #2C4942;
 	padding: 5px 20px 4px;
 	border: 1px solid #000000;
 	margin-right: 10px;
@@ -2351,7 +2351,7 @@ ol {
 
 .blog-single-text .blog-tag-share .social-share span {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .blog-single-text .blog-tag-share .social-share a {
@@ -2372,7 +2372,7 @@ ol {
 }
 
 .blog-single-sidebar .bs-latest-news h4 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 35px;
@@ -2380,7 +2380,7 @@ ol {
 
 .blog-single-sidebar .bs-latest-news .bl-item {
 	position: relative;
-	background: #ffffff;
+	background: #2C4942;
 	padding-left: 30px;
 	padding-top: 20px;
 	padding-bottom: 20px;
@@ -2400,7 +2400,7 @@ ol {
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: #ffffff;
+	background: #2C4942;
 	opacity: 1;
 	-webkit-transition: all 0.4s;
 	-o-transition: all 0.4s;
@@ -2412,11 +2412,11 @@ ol {
 }
 
 .blog-single-sidebar .bs-latest-news .bl-item:hover h5 {
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .blog-single-sidebar .bs-latest-news .bl-item:hover span {
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .blog-single-sidebar .bs-latest-news .bl-item h5 {
@@ -2442,7 +2442,7 @@ ol {
 }
 
 .blog-single-sidebar .bs-recent-news h4 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	margin-bottom: 35px;
@@ -2471,11 +2471,11 @@ ol {
 .blog-single-sidebar .bs-recent-news .br-item .bi-text span {
 	display: inline-block;
 	font-weight: 14;
-	color: #ffffff;
+	color: #2C4942;
 }
 
 .blog-single-sidebar .bs-recent-news .br-item .bi-text h5 {
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	line-height: 26px;
 }
@@ -2486,7 +2486,7 @@ ol {
 }
 
 .recent-news h4 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	font-weight: 500;
 	margin-bottom: 35px;
@@ -2509,19 +2509,19 @@ ol {
 
 .recent-item .recent-text .categories {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 }
 
 .recent-item .recent-text h5 {
 	font-size: 20px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	margin-top: 10px;
 }
 
 .leave-comment-form h4 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	font-weight: 500;
 	margin-bottom: 36px;
@@ -2565,7 +2565,7 @@ ol {
 }
 
 .leave-comment-form form input:focus {
-	background: #ffffff;
+	background: #2C4942;
 	color: #151515;
 	font-weight: 600;
 }
@@ -2610,14 +2610,14 @@ ol {
 }
 
 .leave-comment-form form textarea:focus {
-	background: #ffffff;
+	background: #2C4942;
 	color: #151515;
 	font-weight: 600;
 }
 
 .leave-comment-form form .leave-btn {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	background: -o-linear-gradient(45deg, #e16521, #e4381C);
@@ -2643,7 +2643,7 @@ ol {
 }
 
 .contact-map .map-hover {
-	background: #ffffff;
+	background: #2C4942;
 	display: inline-block;
 	padding: 20px 40px 20px 28px;
 	position: absolute;
@@ -2659,7 +2659,7 @@ ol {
 	bottom: -20px;
 	border-left: 15px solid transparent;
 	border-right: 15px solid transparent;
-	border-top: 28px solid #ffffff;
+	border-top: 28px solid #2C4942;
 	content: "";
 }
 
@@ -2699,7 +2699,7 @@ ol {
 }
 
 .contact-section .contact-info h4 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	font-weight: 500;
 	margin-bottom: 30px;
@@ -2708,7 +2708,7 @@ ol {
 .contact-section .contact-info ul li {
 	list-style: none;
 	font-size: 18px;
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 48px;
 }
 
@@ -2722,7 +2722,7 @@ ol {
 }
 
 .contact-section .contact-address h4 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	font-weight: 500;
 	margin-bottom: 30px;
@@ -2731,7 +2731,7 @@ ol {
 .contact-section .contact-address ul li {
 	list-style: none;
 	font-size: 18px;
-	color: #ffffff;
+	color: #2C4942;
 	line-height: 25px;
 	position: relative;
 	padding-left: 35px;
@@ -2747,7 +2747,7 @@ ol {
 }
 
 .contact-form h4 {
-	color: #ffffff;
+	color: #2C4942;
 	text-transform: uppercase;
 	font-weight: 500;
 	margin-bottom: 48px;
@@ -2791,7 +2791,7 @@ ol {
 }
 
 .contact-form form input:focus {
-	background: #ffffff;
+	background: #2C4942;
 	color: #151515;
 	font-weight: 600;
 }
@@ -2836,14 +2836,14 @@ ol {
 }
 
 .contact-form form textarea:focus {
-	background: #ffffff;
+	background: #2C4942;
 	color: #151515;
 	font-weight: 600;
 }
 
 .contact-form form .c-btn {
 	font-size: 14px;
-	color: #ffffff;
+	color: #2C4942;
 	font-weight: 500;
 	text-transform: uppercase;
 	background: -o-linear-gradient(45deg, #e16521, #e4381C);
@@ -2981,7 +2981,7 @@ ol {
 	.slicknav_nav .slicknav_row:hover {
 		border-radius: 0;
 		background: #e4381C;
-		color: #ffffff;
+		color: #2C4942;
 	}
 
 	.hero-items .owl-nav button[type=button] {
