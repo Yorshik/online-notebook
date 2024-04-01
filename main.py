@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, jsonify
 from data.db_session import global_init, create_session
 from scripts.forms import *
 from data.user import User
@@ -6,12 +6,16 @@ from data.folder import Folder
 from data.note import Note
 import datetime
 from flask_login import login_user, LoginManager, login_required
-# from scripts.send_message import send_msg
-# send_msg('kirkidzapp@gmail.com')
+from scripts.send_message import send
+from scripts.format_string import format_settings_string
 
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
 login_manager = LoginManager(app)
+
+settings = {}
+editing = True
+page = ['<p>/<p>']
 
 
 @login_manager.user_loader
