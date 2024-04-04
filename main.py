@@ -74,15 +74,13 @@ def logout():
 
 
 @app.route('/main')
-@login_required
 def main():
-    return '<h1>Unavailable</h1>'
+    return render_template('main.html')
 
 
 @app.route('/account')
-@login_required
 def account():
-    return '<h1>Unavailable</h1>'
+    return render_template('account.html')
 
 
 @app.route('/reset_pass')
