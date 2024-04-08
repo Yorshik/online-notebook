@@ -27,65 +27,71 @@
   <link rel="stylesheet" href="/static/css/styles/font.css" type="text/css" />
 </head>
 <body>
-  <div class="app" id="app">
 
 <!-- ############ LAYOUT START-->
 
-<div class="app-body-inner">
-	<div class="row-col">
-		<div class="col-xs-4 modal fade aside aside-sm" id="list">
-			<div class="row-col b-r light lt">
-				<div class="b-b">
-					<div class="navbar no-radius">
-					    <ul class="nav navbar-nav">
-					        <li class="nav-item">
-					          	<span class="navbar-item m-r-0 text-md">Папки</span>
-					        </li>
-					    </ul>
-					</div>
-				</div>
-				<!-- Левая колонка -->
-		      	<div class="row-row">
-			      	<div class="row-body scrollable hover">
-				      	<div class="row-inner">
-				      	</div>
-				    </div>
-		      	</div>
-				<!-- / Левая колонка-->
-			    <div class="p-a b-t clearfix">
-			      	<span class="text-sm text-muted">Папки: <strong>10</strong></span>
-			    </div>
+  <div class="app-body-inner">
+      <div class="row-col">
+          <div class="col-xs-4 modal fade aside aside-sm" id="list">
+              <div class="row-col b-r light lt">
+                  <div class="b-b">
+                      <div class="navbar no-radius">
+                          <ul class="nav navbar-nav">
+                              <li class="nav-item">
+                                  <span class="navbar-item m-r-0 text-md">Папки</span>
+                              </li>
+                          </ul>
+                      </div>
+                  </div>
+                  <!-- Левая колонка -->
+                  <div class="row-row">
+                      <div class="row-body scrollable hover">
+                          <div class="row-inner">
+                          </div>
+                      </div>
+                  </div>
+                  <!-- / Левая колонка-->
+                  <div class="p-a b-t clearfix">
+                      <span class="text-sm text-muted">Папки: <strong>10</strong></span>
+                  </div>
 
-				<!-- / кнопка аккаунт-->
-				<div class="p-y text-center">
-			        <a href="/account" class="md-btn md-mini md-fab primary"><i class="fa fa-plus"></i></a>
-			    </div>
+                  <!-- / кнопка папки-->
+                  <div class="p-y text-center">
+                      <a href="#" class="md-btn md-mini md-fab primary"><i class="fa fa-plus"></i></a>
+                  </div>
 
-		    </div>
-		</div>
-		<div class="col-xs-5" id="detail">
-			<div class="row-col white b-r">
-				<div class="b-b">
-					<div class="navbar no-radius">
-						<span class="navbar-item text-md text-ellipsis">Заметки</span>
-					</div>
-				</div>
+              </div>
+          </div>
+          <div class="col-xs-5" id="detail">
+              <div class="row-col white b-r">
+                  <div class="b-b">
+                      <div class="navbar no-radius">
+                          <span class="navbar-item text-md text-ellipsis">Заметки</span>
+                      </div>
+                  </div>
 
-				<!-- Правая колонка-->
-				<div class="row-row">
-					<div class="row-body scrollable hover">
-						<div class="row-inner"></div>
-				    </div>
-				</div>
+                  <!-- Правая колонка-->
+                  <div class="row-row">
+                      <div class="row-body scrollable hover">
+                          <div class="row-inner"></div>
+                      </div>
+                  </div>
 
-				<!-- / кнопка аккаунт-->
-				<div class="p-y text-center">
-					<a href="/account" class="md-btn md-mini md-fab primary"><i class="fa fa-plus"></i></a>
-				</div>
+                  <!-- / кнопка заметки-->
+                  <div class="p-y text-center">
+                      <a href="#" class="md-btn md-mini md-fab primary"><i class="fa fa-plus"></i></a>
+                  </div>
 
-				<!-- / Правая колонка-->
-		    </div>
-		</div>
+                  <!-- / Правая колонка-->
+              </div>
+          </div>
+          <div class="col-xs w-80" id="sidenav">
+              <div class="row-col bg">
+              </div>
+          </div>
+      </div>
+  </div>
+
 
 		<form>
 			<p><b>Редактирование</b></p>
@@ -94,18 +100,45 @@
 	</div>
 
 
-</div>
+  <!-- кнопка аккаунт -->
+  <div class="navbar" data-pjax>
+      <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+        <i class="ion-navicon"></i>
+      </a>
+      <!-- nabar right -->
+      <ul class="nav navbar-nav pull-right">
+        <li class="nav-item dropdown pos-stc-xs">
+          <!-- dropdown -->
+          <div class="dropdown-menu pull-right w-xl animated fadeIn no-bg no-border no-shadow">
+      </div>
+          <!-- / dropdown -->
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link clear" data-toggle="dropdown">
+            <span class="avatar w-32">
+              <img src="/static/img/a3.jpg" class="w-full rounded" alt="...">
+            </span>
+          </a>
+          <div class="dropdown-menu w dropdown-menu-scale pull-right">
+            <a class="dropdown-item" href="/account">
+              <span>Profile</span>
+            </a>
+            <a class="dropdown-item" href="/login">Sign out</a>
+          </div>
+        </li>
+      </ul>
+  <!-- / navbar right -->
   </div>
+  <!-- / кнопка аккаунт -->
 
-  </div>
 
-<!-- build:js scripts/app.min.js -->
-<!-- jQuery -->
+  <!-- build:js scripts/app.min.js -->
+  <!-- jQuery -->
   <script src="/static/libs/jquery/dist/jquery.js"></script>
-<!-- Bootstrap -->
+  <!-- Bootstrap -->
   <script src="/static/libs/tether/dist/js/tether.min.js"></script>
   <script src="/static/libs/bootstrap/dist/js/bootstrap.js"></script>
-<!-- core -->
+  <!-- core -->
   <script src="/static/libs/jQuery-Storage-API/jquery.storageapi.min.js"></script>
   <script src="/static/libs/PACE/pace.min.js"></script>
   <script src="/static/libs/jquery-pjax/jquery.pjax.js"></script>
