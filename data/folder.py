@@ -5,9 +5,10 @@ import datetime
 from flask_login import UserMixin
 import sqlalchemy
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy_serializer import SerializerMixin
 
 
-class Folder(SqlAlchemyBase, UserMixin):
+class Folder(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'folders'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String)

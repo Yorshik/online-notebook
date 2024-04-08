@@ -6,9 +6,14 @@ from data.note import Note
 from data.folder import Folder
 import datetime
 from flask_login import login_user, logout_user, LoginManager, login_required
+from flask_restful import Api
+from data import user_resources
+from data import folder_resources
+from data import note_resources
 
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
+api = Api(app)
 login_manager = LoginManager(app)
 
 
@@ -116,6 +121,14 @@ def delete_note(num):
 @app.route('/delete_folder/<int:num>')
 def delete_folder(num):
     return '<h1>Unavailable</h1>'
+
+
+api.add_resource(user_resources.UsersListResource, '/api/users')
+api.add_resource(user_resources.UsersResource, '/api/users/<int:user_id>')
+api.add_resource(folder_resources.FoldersListResource, '/api/folders/<int:user_id>')
+api.add_resource(folder_resources.FoldersResource, '/api/folders/<int:user_id>/<int:folder_id>')
+api.add_resource(note_resources.NotesListResource, '/api/notes/<int:user_id>/<int:folder_id>')
+api.add_resource(note_resources.NotesResource, '/api/notes/<int:user_id>/<int:folder_id>/<int:note_id>')
 
 
 if __name__ == '__main__':
