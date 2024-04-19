@@ -1,10 +1,14 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, jsonify
 from data.db_session import global_init, create_session
-from forms import *
+from scripts.forms import *
 from data.user import User
+from data.folder import Folder
 from data.note import Note
 from data.folder import Folder
 import datetime
+from flask_login import login_user, LoginManager, login_required
+from scripts.send_message import send
+from scripts.format_string import format_settings_string
 from flask_login import login_user, logout_user, LoginManager, login_required
 from flask_restful import Api
 from data import user_resources
@@ -15,6 +19,10 @@ app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
 api = Api(app)
 login_manager = LoginManager(app)
+
+settings = {}
+editing = True
+page = ['<p>/<p>']
 
 
 @login_manager.user_loader
@@ -28,9 +36,9 @@ def index():
     return '<h1>Unavailable</h1>'
 
 
-@app.route('/about')
+@app.route('/about-us')
 def about():
-    return '<h1>Unavailable</h1>'
+    return render_template('about-us.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])

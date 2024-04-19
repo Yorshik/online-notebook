@@ -3,24 +3,25 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from random import randint
 
-server = smtplib.SMTP('smtp.gmail.com', 587)
-server.starttls()
-server.login("yandex.notebook@gmail.com", "3113241009311313")
 
-TITLE = 'Восстановление пароля'
-BODY = f'''
-Здравствуйте, вы запросили восстановление пароля
-Код для восстановления: {"".join(map(str, [randint(0, 9) for _ in range(6)]))}
-Если вы не запрашивали восстановление - проигнорируйте сообщение
-Яндекс.Блокнот 
-'''
-
-
-def send_msg(email):
+def send(email: str) -> str:
+    TITLE = 'Восстановление пароля'
+    CODE = "".join(map(str, [randint(0, 9) for _ in range(6)]))
+    BODY = f'''
+    Здравствуйте, вы запросили восстановление пароля
+    Код для восстановления: {CODE} 
+    Если вы не запрашивали восстановление - проигнорируйте сообщение
+    Яндекс.Блокнот 
+    '''
+    from_addr = 'yan.notebook.dex@yandex.ru'
+    password = 'xngxrjcdhxrotjie'
     msg = MIMEMultipart()
-    msg['From'] = "your_email@gmail.com"
-    msg['To'] = "recipient_email@example.com"
-    msg['Subject'] = TITLE
+    msg['From'] = from_addr
+    msg['To'] = email
+    msg['Title'] = TITLE
     msg.attach(MIMEText(BODY, 'plain'))
-    text = msg.as_string()
-    server.sendmail("yandex.notebook@gmail.com", email, text)
+    server = smtplib.SMTP('smtp.yandex.ru', 587)
+    server.starttls()
+    server.login(from_addr, password)
+    server.send_message(msg)
+    return CODE
