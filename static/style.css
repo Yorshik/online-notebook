@@ -116,6 +116,9 @@ a {
     background-color: rgba(0,0,0,0.3);
 }
 
+input[type="submit"]:hover {
+    background-color: rgba(0,0,0,0.3);
+}
 
 .columns {
     display: flex;
@@ -136,7 +139,7 @@ a {
 }
 
 form {
-    margin-top: 2em;
+    margin-top: 10%;
 }
 
 input {
@@ -148,20 +151,35 @@ input {
   outline: none;
   color: black;
   caret-color: black;
-  width: 100%;
+  width: 30%;
 }
 
 input[type=text]::placeholder {
   text-align: center;
   font-family: 'Roboto', sans-serif;
 }
+input[type=password]::placeholder {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+input[type=email]::placeholder {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
 input[type=submit] {
-  width: 100%;
+  width: 30%;
   padding: 0.2vh;
   border: none;
   cursor: pointer;
   border-radius: 4px 4px;
   border: solid 1px black;
+  margin-top: 3vh;
+}
+
+.md-check {
+    font-size: 1.0rem;
+    display: block;
+    border-radius: 3px;
 }
 
 .folders_and_notes {
@@ -266,4 +284,8 @@ input[type=submit] {
 .schedule > div > .num {
     font-size: 2em;
     font-style: bold;
+}
+
+.default_text {
+    margin-bottom: 10%;
 }
