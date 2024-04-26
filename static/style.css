@@ -176,6 +176,10 @@ input[type=submit] {
   margin-top: 3vh;
 }
 
+input[type="checkbox"] {
+	display: inline-block;
+    }
+
 .md-check {
     font-size: 1.0rem;
     display: block;
