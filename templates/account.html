@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+
+<center>
+    <h1>Аккаунт</h1>
+</center>
+<div id="content">
+    <div class="columns fs">
+        <div>
+            <h1 style="text-align: center">Сменить пароль</h1>
+            <form name="form" method="post">
+                <div class="form-group">
+                    <!-- поле ввода пароля-->
+                    <center><input type="password" class="form-control1" placeholder="Current password" name="current"
+                                   required></center>
+                </div>
+                <div class="form-group">
+                    <!-- поле ввода нового пароля-->
+                    <center><input type="password" class="form-control1" placeholder="New password" name="new"
+                                   required></center>
+                </div>
+                <!-- кнопка регистрации-->
+                <center><input type="submit" value="change"/></center>
+            </form>
+        </div>
+        <div>
+            <div class="info">
+                Username:
+            </div>
+            <div class="info">
+                {{nickname}}
+            </div>
+            <br>
+            <div class="info">
+                Email:
+            </div>
+            <div class="info">
+                {{email}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

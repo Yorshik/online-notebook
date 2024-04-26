@@ -15,6 +15,7 @@ from scripts.yan_gpt import gpt_answer
 
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
+app.debug = True
 api = Api(app)
 login_manager = LoginManager(app)
 
@@ -119,6 +120,11 @@ def main():
         else:
             abort(404)
     return render_template('main.html', list_of_folders=folders_json['folders'], list_of_notes=notes_json['notes'])
+
+
+@app.route('/account')
+def account():
+    return render_template('account.html', nickname="gfdhgfd", email="gf@gmail.com")
 
 
 api.add_resource(user_resources.UsersListResource, '/api/users')

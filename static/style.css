@@ -142,7 +142,7 @@ form {
     margin-top: 10%;
 }
 
-input {
+.form-control {
     font-size: 1.25em;
   margin-bottom: 5vh;
   border-right: none;
@@ -184,6 +184,29 @@ input[type="checkbox"] {
     font-size: 1.0rem;
     display: block;
     border-radius: 3px;
+}
+
+.form-control1 {
+    font-size: 1.25em;
+  margin-bottom: 5vh;
+  border-right: none;
+  border-top: none;
+  border-left: none;
+  outline: none;
+  color: black;
+  caret-color: black;
+  width: 100%;
+}
+
+.info {
+    font-size: 1.25em;
+  margin-bottom: 5vh;
+  border-right: none;
+  border-top: none;
+  border-left: none;
+  outline: none;
+  color: black;
+  caret-color: black;
 }
 
 .folders_and_notes {
