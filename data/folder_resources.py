@@ -6,7 +6,7 @@ from flask_restful import Resource, reqparse
 from data.db_session import create_session
 from data.folder import Folder
 from data.user import User
-from data.api_keys import get_api_key
+from scripts.api_keys import free, pro, admin
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
@@ -14,7 +14,6 @@ parser.add_argument('password')
 
 parser2 = reqparse.RequestParser()
 parser2.add_argument('apikey', required=True)
-parser2.add_argument('access_level', required=True)
 
 
 def abort_if_folder_not_found(folder_id):
@@ -29,6 +28,13 @@ def abort_if_user_not_found(user_id):
     user = session.query(User).filter(User.id == user_id).first()
     if not user:
         abort(404)
+
+
+def get_folder_by_nickname(folder_name):
+    session = create_session()
+    folder = session.query(Folder).filter(Folder.nickname == folder_name).first()
+    if folder:
+        return folder.id
 
 
 class FoldersResource(Resource):
@@ -89,7 +95,7 @@ class FoldersResource(Resource):
         db_sess.commit()
         return jsonify(
             {
-                'edited_user': folder.to_dict()
+                'edited_folder': folder.to_dict()
             }
         )
 
@@ -134,7 +140,7 @@ class FoldersListResource(Resource):
             )
         return jsonify(
             {
-                'users':
+                'folders':
                     [item.to_dict()
                      for item in folders],
                 'status': 200

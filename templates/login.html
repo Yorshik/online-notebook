@@ -7,29 +7,41 @@
     <title>Вход</title>
 </head>
 <body>
-  <center><div>
-    <h1>Вход</h1>
-  </div></center>
-  <form name="form" action="/main">
+<center>
+    <div>
+        <h1>Вход</h1>
+    </div>
+</center>
+<form name="form" method="post">
+
     <div class="form-group">
-      <!-- поле ввода ника-->
-      <center><input type="text" class="form-control" placeholder="Username" name="nickname" required></center>
+        <!-- поле ввода ника-->
+        <center><input type="text" class="form-control" placeholder="Username" name="nickname" required></center>
     </div>
     <div class="form-group">
-      <!-- поле ввода пароля-->
-      <center><input type="password" class="form-control" placeholder="Password" name="password" required></center>
+        <!-- поле ввода пароля-->
+        <center><input type="password" class="form-control" placeholder="Password" name="password" required></center>
     </div>
-      <!-- чекбокс запомнить меня-->
-      <center><input type="checkbox" id="name_it_yourself">Keep me signed in</center>
+    <!-- чекбокс запомнить меня-->
+    <center><input type="checkbox" id="name_it_yourself" name="remember_me">Keep me signed in</center>
     <!-- кнопка регистрации-->
     <center><input type="submit" value="sign in"/></center>
-  </form>
-  <center><div class="default_text">
-    <a href="/forgot_password">Forgot password?</a>
-  </div></center>
-  <center><div>
-    Do not have an account?
-    <a href="/register" class="text-primary _600">Registration</a>
-  </div></center>
+    {% if message %}
+    <center>
+        <h1>{{ message }}</h1>
+    </center>
+    {% endif %}
+</form>
+<center>
+    <div class="default_text">
+        <a href="/forgot_password">Forgot password?</a>
+    </div>
+</center>
+<center>
+    <div>
+        Do not have an account?
+        <a href="/register" class="text-primary _600">Registration</a>
+    </div>
+</center>
 </body>
 </html>

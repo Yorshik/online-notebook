@@ -9,11 +9,8 @@ from sqlalchemy_serializer import SerializerMixin
 class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'users'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
-    name = sqlalchemy.Column(sqlalchemy.String)
-    surname = sqlalchemy.Column(sqlalchemy.String)
     email = sqlalchemy.Column(sqlalchemy.String, unique=True)
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
-    modified_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now())
     nickname = sqlalchemy.Column(sqlalchemy.String, unique=True)
 
     def set_password(self, password):
@@ -21,3 +18,11 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+    @classmethod
+    def from_dict(cls, data):
+        cls.id = data['id']
+        cls.email = data['email']
+        cls.nickname = data['nickname']
+        cls.hashed_password = data['hashed_password']
+        return cls()

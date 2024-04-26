@@ -7,8 +7,8 @@
     <div class="columns fs">
         <div>
             <ul class="folders_and_notes">
-                {%for item in list_of_events%}
-                <li><a href='{{item[" url"]}}'>
+                {% for item in list_of_folders %}
+                <li><a href='{{item["url"]}}'>
                         <div class="name">
                             {{item["title"]}}
                         </div>
@@ -30,8 +30,8 @@
         </div>
         <div>
             <ul class="folders_and_notes">
-                {%for item in list_of_events%}
-                <li><a href='{{item[" url"]}}'>
+                {% for item in list_of_notes %}
+                <li><a href='{{item["url"]}}'>
                         <div class="name">
                             {{item["title"]}}
                         </div>
@@ -59,4 +59,5 @@
                 </form>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

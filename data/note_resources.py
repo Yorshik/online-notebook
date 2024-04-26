@@ -7,7 +7,7 @@ from data.db_session import create_session
 from data.note import Note
 from data.folder import Folder
 from data.user import User
-from data.api_keys import get_api_key
+from scripts.api_keys import free, pro, admin
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
@@ -16,7 +16,6 @@ parser.add_argument('password')
 
 parser2 = reqparse.RequestParser()
 parser2.add_argument('apikey', required=True)
-parser2.add_argument('access_level', required=True)
 
 
 def abort_if_note_not_found(note_id):
@@ -60,7 +59,7 @@ class NotesResource(Resource):
             })
         return jsonify(
             {
-                'Note': note.to_dict(),
+                'note': note.to_dict(),
                 'status': 200
             }
         )
@@ -100,7 +99,7 @@ class NotesResource(Resource):
         db_sess.commit()
         return jsonify(
             {
-                'edited_Note': note.to_dict()
+                'edited_note': note.to_dict()
             }
         )
 
@@ -144,7 +143,7 @@ class NotesListResource(Resource):
             })
         return jsonify(
             {
-                'Notes':
+                'notes':
                     [item.to_dict()
                      for item in notes],
                 'status': 200

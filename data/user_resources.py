@@ -1,23 +1,18 @@
-import datetime
-
-from sqlalchemy.exc import IntegrityError
 from flask import jsonify, abort, request
 from flask_restful import Resource, reqparse
+from sqlalchemy.exc import IntegrityError
 
 from data.db_session import create_session
 from data.user import User
-from data.api_keys import get_api_key
+from scripts.api_keys import free, pro, admin
 
 parser = reqparse.RequestParser()
-parser.add_argument('name', required=True)
-parser.add_argument('surname', required=True)
 parser.add_argument('password', required=True)
 parser.add_argument('email', required=True)
 parser.add_argument('nickname', required=True)
 
 parser2 = reqparse.RequestParser()
 parser2.add_argument('apikey', required=True)
-parser2.add_argument('access_level', required=True)
 
 
 def abort_if_user_not_found(user_id):
@@ -27,6 +22,13 @@ def abort_if_user_not_found(user_id):
         abort(404)
 
 
+def get_user_by_nickname(user_nickname):
+    session = create_session()
+    user = session.query(User).filter(User.nickname == user_nickname).first()
+    if user:
+        return user.id
+
+
 class UsersResource(Resource):
     def get(self, user_id):
         abort_if_user_not_found(user_id)
@@ -34,7 +36,7 @@ class UsersResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if get_api_key(args.access_level) != args.apikey:
+        if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
         user = db_sess.query(User).filter(User.id == user_id).first()
@@ -52,7 +54,7 @@ class UsersResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if not (args.access_level == 'admin' and get_api_key(args.access_level) == args.apikey):
+        if args.apikey != admin:
             abort(403)
         try:
             args = parser.parse_args()
@@ -62,12 +64,9 @@ class UsersResource(Resource):
         db_sess = create_session()
         user = db_sess.query(User).filter(User.id == user_id).first()
         db_sess.delete(user)
-        user.surname = args.surname
-        user.name = args.name
         user.email = args.email
         user.set_password(args.password)
         user.nickname = args.nickname
-        user.modified_date = datetime.datetime.now()
         try:
             db_sess.add(user)
             db_sess.commit()
@@ -85,7 +84,7 @@ class UsersResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if not (args.access_level == 'admin' and get_api_key(args.access_level) == args.apikey):
+        if args.apikey != admin:
             abort(403)
         session = create_session()
         user = session.query(User).get(user_id)
@@ -100,7 +99,7 @@ class UsersListResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if get_api_key(args.access_level) != args.apikey:
+        if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
         users = db_sess.query(User).all()
@@ -118,27 +117,24 @@ class UsersListResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if not (args.access_level in ['admin', 'pro'] and get_api_key(args.access_level) == args.apikey):
+        if args.apikey not in [pro, admin]:
             abort(403)
         try:
             args = parser.parse_args()
         except ValueError:
-            return jsonify(
-                {
-                    'error': 'Bad request'
-                }
-            )
+            abort(400)
         session = create_session()
         user = User()
-        user.surname = args.surname
-        user.name = args.name
         user.email = args.email
         user.set_password(args.password)
         user.nickname = args.nickname
-        user.modified_date = datetime.datetime.now()
         try:
             session.add(user)
             session.commit()
         except IntegrityError:
             abort(406)
-        return jsonify({'id': user.id})
+        return jsonify(
+            {
+                'user': user.to_dict()
+            }
+        )
