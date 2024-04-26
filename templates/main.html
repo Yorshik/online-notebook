@@ -8,19 +8,9 @@
         <div>
             <ul class="folders_and_notes">
                 {% for item in list_of_folders %}
-                <li><a href='{{item["url"]}}'>
+                <li><a href='/load_folder_id/{{item["name"]}}'>
                         <div class="name">
-                            {{item["title"]}}
-                        </div>
-                        <div class="date">
-                            {{item["date"]}}
-                        </div>
-                        <div class="price">
-                            {{item["price"]}}
-                        </div>
-                        <div class="metro">
-                            <img src="/static/img/spb_metro.svg" />{{item["subway"] if item["subway"] else "Не
-                            найдено"}}
+                            {{item["name"]}}
                         </div>
                     </a></li>
                 {%endfor%}
@@ -31,19 +21,9 @@
         <div>
             <ul class="folders_and_notes">
                 {% for item in list_of_notes %}
-                <li><a href='{{item["url"]}}'>
+                <li><a href='/load_note_id/{{item["name"]}}'>
                         <div class="name">
-                            {{item["title"]}}
-                        </div>
-                        <div class="date">
-                            {{item["date"]}}
-                        </div>
-                        <div class="price">
-                            {{item["price"]}}
-                        </div>
-                        <div class="metro">
-                            <img src="/static/img/spb_metro.svg" />{{item["subway"] if item["subway"] else "Не
-                            найдено"}}
+                            {{item["content"]}}
                         </div>
                     </a></li>
                 {%endfor%}
