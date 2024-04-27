@@ -11,7 +11,7 @@ from data import user_resources
 from data.db_session import global_init, create_session
 from data.user import User
 from scripts.api_keys import admin
-from scripts.send_message import send_msg
+#from scripts.send_message import send_msg
 from scripts.yan_gpt import gpt_answer
 
 app = Flask(__name__)
@@ -57,12 +57,12 @@ def enter_code(nickname, email, code):
     return render_template('enter_code.html')
 
 
-@app.route('/forgot_password')
+'''@app.route('/forgot_password')
 def get_code():
     if request.method == 'POST':
         code = send_msg(request.form.get('email'))
         return redirect(f'/enter_code/{request.form.get('nick')}/{request.form.get('email')}/{hash(str(code))}')
-    return render_template('forgot_password.html')
+    return render_template('forgot_password.html')'''
 
 
 @app.route('/register', methods=['GET', 'POST'])

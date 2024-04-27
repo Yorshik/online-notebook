@@ -16,7 +16,7 @@
                 {%endfor%}
 
             </ul>
-            <a href="/add_folder"><input type="submit" value="Добавить папку"/></a>
+            <a href="/add_folder" class="button primary">Добавить папку</a>
         </div>
         <div>
             <ul class="folders_and_notes">
@@ -29,14 +29,14 @@
                 {%endfor%}
 
             </ul>
-            <a href="/add_note"><input type="submit" value="Добавить заметку"/></a>
+            <a href="/add_note" class="button primary">Добавить заметку</a>
         </div>
         <div>
-            <h1 style="text-align: center">Редактирование</h1>
+            <h3 style="text-align: center">Редактирование</h3>
             <form action="/main" method="POST">
-                <p><textarea id="edit" name="content" type="text"
+                <p><textarea id="edit" name="content" cols="50" rows="12" type="text"
                              value='{{address or ""}}'>{{ note_content }}</textarea></p>
-                <input type="submit" value="Сохранить"/>
+                <input class="button succcess" type="submit" value="Сохранить"/>
             </form>
         </div>
     </div>
