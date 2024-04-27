@@ -2,10 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from random import randint
-
-server = smtplib.SMTP('smtp.yandex.ru', 587)
-server.starttls()
-server.login("yan.notebook.dex@yandex.ru", "3113241009311313")
+from scripts.api_keys import app_pass
 
 TITLE = 'Восстановление пароля'
 CODE = "".join(map(str, [randint(0, 9) for _ in range(6)]))
@@ -19,10 +16,12 @@ BODY = f'''
 
 def send_msg(email):
     msg = MIMEMultipart()
-    msg['From'] = "your_email@gmail.com"
-    msg['To'] = "recipient_email@example.com"
+    msg['From'] = "yan.notebook.dex@yandex.ru"
+    msg['To'] = email
     msg['Subject'] = TITLE
     msg.attach(MIMEText(BODY, 'plain'))
-    text = msg.as_string()
-    server.sendmail("yan.notebook.dex@yandex.ru", email, text)
+    server = smtplib.SMTP_SSL('smtp.yandex.ru', 465)
+    server.login('yan.notebook.dex@yandex.ru', app_pass)
+    server.sendmail('yan.notebook.dex@yandex.ru', email, msg.as_string())
+    server.quit()
     return CODE

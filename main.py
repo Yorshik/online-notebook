@@ -41,7 +41,7 @@ def index():
     return render_template('index.html', ask=ask, answer=answer)
 
 
-@app.route('/enter_code/<nickname>/<email>/<code>')
+@app.route('/enter_code/<nickname>/<email>/<code>', methods=['GET', 'POST'])
 def enter_code(nickname, email, code):
     if request.method == 'POST':
         if hash(request.form.get('code')) == code:
@@ -57,7 +57,7 @@ def enter_code(nickname, email, code):
     return render_template('enter_code.html')
 
 
-@app.route('/forgot_password')
+@app.route('/forgot_password', methods=['GET', 'POST'])
 def get_code():
     if request.method == 'POST':
         code = send_msg(request.form.get('email'))
@@ -196,7 +196,7 @@ def main():
         except KeyError:
             folders = []
     else:
-        abort(404)
+        folders = []
     notes = []
     content = ''
     if user_folder_id:
@@ -209,8 +209,6 @@ def main():
                 notes = notes_json['notes']
             except KeyError:
                 notes = []
-        else:
-            abort(400)
         if folder_note_id:
             content_req = requests.get(
                 f'http://localhost:9999/api/notes/{login_user_id}/{user_folder_id}/'
