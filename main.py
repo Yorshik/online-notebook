@@ -41,27 +41,27 @@ def index():
     return render_template('index.html', ask=ask, answer=answer)
 
 
-@app.route('/enter_code')
-def enter_code():
+@app.route('/enter_code/<nickname>/<email>/<code>')
+def enter_code(nickname, email, code):
     if request.method == 'POST':
-        entered_code = request.form.get('code')
-        if entered_code == code:
+        if hash(request.form.get('code')) == code:
             user = User.from_dict(
                 {
-                    'nickname': 'lox_zabivshiy_parol',
-                    'email': temp_email,
+                    'nickname': nickname,
+                    'email': email,
+                    'password': '1234'
                 }
             )
+            login_user(user)
+        return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
+    return render_template('enter_code.html')
 
 
 @app.route('/forgot_password')
 def get_code():
-    global code
-    global temp_email
     if request.method == 'POST':
         code = send_msg(request.form.get('email'))
-        temp_email = request.form.get('email')
-        return redirect('/enter_code')
+        return redirect(f'/enter_code/{request.form.get('nick')}/{request.form.get('email')}/{hash(str(code))}')
     return render_template('forgot_password.html')
 
 
@@ -249,8 +249,6 @@ api.add_resource(note_resources.NotesListResource, '/api/notes/<int:user_id>/<in
 api.add_resource(note_resources.NotesResource, '/api/notes/<int:user_id>/<int:folder_id>/<int:note_id>')
 
 if __name__ == '__main__':
-    code = None
-    temp_email = None
     login_user_id = None
     user_folder_id = None
     folder_note_id = None
