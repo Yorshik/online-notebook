@@ -1,10 +1,9 @@
-from sqlalchemy.orm import relationship
+import sqlalchemy
+from flask_login import UserMixin
+from sqlalchemy_serializer import SerializerMixin
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from data.db_session import SqlAlchemyBase
-from flask_login import UserMixin
-import sqlalchemy
-from werkzeug.security import check_password_hash, generate_password_hash
-from sqlalchemy_serializer import SerializerMixin
 
 
 class Folder(SqlAlchemyBase, UserMixin, SerializerMixin):
