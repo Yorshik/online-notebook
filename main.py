@@ -1,7 +1,7 @@
 import datetime
 
 import requests
-from flask import Flask, render_template, request, redirect, abort
+from flask import Flask, render_template, request, redirect
 from flask_login import login_user, logout_user, LoginManager, login_required
 from flask_restful import Api
 
@@ -44,16 +44,24 @@ def index():
 @app.route('/enter_code/<nickname>/<email>/<code>', methods=['GET', 'POST'])
 def enter_code(nickname, email, code):
     if request.method == 'POST':
-        if hash(request.form.get('code')) == code:
+        if str(hash(request.form.get('code'))) == code:
+            user_id = user_resources.get_user_by_nickname(nickname)
+            requests.delete(f'http://localhost:9999/api/users/{user_id}', json={'apikey': admin})
             user = User.from_dict(
-                {
-                    'nickname': nickname,
-                    'email': email,
-                    'password': '1234'
-                }
-            )
+                requests.post(
+                    f'http://localhost:9999/api/users', json={
+                        'apikey': admin,
+                        'nickname': nickname,
+                        'email': email,
+                        'password': '1234'
+                    }
+                    ).json()['user']
+                )
             login_user(user)
-        return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
+            return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
+        print(type(hash(request.form.get('code'))))
+        print(type(code))
+        return f'my code: {code}\nnormal code: {hash(request.form.get('code'))}\nvs: {hash(request.form.get('code')) == code}'
     return render_template('enter_code.html')
 
 
