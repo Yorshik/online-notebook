@@ -40,6 +40,11 @@ def get_folder_by_nickname(folder_name):
 def get_unique_name_of_folder():
     session = create_session()
     folders = session.query(Folder).all()
+    folder = Folder()
+    folder.name = 'note0'
+    folder.id = 0
+    folders.append(folder)
+    print(folders)
     max_name = max(folders, key=lambda folder: folder.id).name
     return f'{max_name}1'
 
