@@ -1,7 +1,7 @@
 import datetime
 
 import requests
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
 from flask_login import login_user, logout_user, LoginManager, login_required
 from flask_restful import Api
 
@@ -11,7 +11,7 @@ from data import user_resources
 from data.db_session import global_init, create_session
 from data.user import User
 from scripts.api_keys import admin
-from scripts.send_message import send_msg
+#from scripts.send_message import send_msg
 from scripts.yan_gpt import gpt_answer
 
 app = Flask(__name__)
@@ -41,36 +41,28 @@ def index():
     return render_template('index.html', ask=ask, answer=answer)
 
 
-@app.route('/enter_code/<nickname>/<email>/<code>', methods=['GET', 'POST'])
+@app.route('/enter_code/<nickname>/<email>/<code>')
 def enter_code(nickname, email, code):
     if request.method == 'POST':
-        if str(hash(request.form.get('code'))) == code:
-            user_id = user_resources.get_user_by_nickname(nickname)
-            requests.delete(f'http://localhost:9999/api/users/{user_id}', json={'apikey': admin})
+        if hash(request.form.get('code')) == code:
             user = User.from_dict(
-                requests.post(
-                    f'http://localhost:9999/api/users', json={
-                        'apikey': admin,
-                        'nickname': nickname,
-                        'email': email,
-                        'password': '1234'
-                    }
-                    ).json()['user']
-                )
+                {
+                    'nickname': nickname,
+                    'email': email,
+                    'password': '1234'
+                }
+            )
             login_user(user)
-            return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
-        print(type(hash(request.form.get('code'))))
-        print(type(code))
-        return f'my code: {code}\nnormal code: {hash(request.form.get('code'))}\nvs: {hash(request.form.get('code')) == code}'
+        return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
     return render_template('enter_code.html')
 
 
-@app.route('/forgot_password', methods=['GET', 'POST'])
+'''@app.route('/forgot_password')
 def get_code():
     if request.method == 'POST':
         code = send_msg(request.form.get('email'))
         return redirect(f'/enter_code/{request.form.get('nick')}/{request.form.get('email')}/{hash(str(code))}')
-    return render_template('forgot_password.html')
+    return render_template('forgot_password.html')'''
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -204,7 +196,7 @@ def main():
         except KeyError:
             folders = []
     else:
-        folders = []
+        abort(404)
     notes = []
     content = ''
     if user_folder_id:
@@ -217,6 +209,8 @@ def main():
                 notes = notes_json['notes']
             except KeyError:
                 notes = []
+        else:
+            abort(400)
         if folder_note_id:
             content_req = requests.get(
                 f'http://localhost:9999/api/notes/{login_user_id}/{user_folder_id}/'
