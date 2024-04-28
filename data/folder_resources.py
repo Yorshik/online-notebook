@@ -6,7 +6,7 @@ from flask_restful import Resource, reqparse
 from data.db_session import create_session
 from data.folder import Folder
 from data.user import User
-from data.api_keys import get_api_key
+from scripts.api_keys import free, pro, admin
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
@@ -14,7 +14,6 @@ parser.add_argument('password')
 
 parser2 = reqparse.RequestParser()
 parser2.add_argument('apikey', required=True)
-parser2.add_argument('access_level', required=True)
 
 
 def abort_if_folder_not_found(folder_id):
@@ -31,6 +30,24 @@ def abort_if_user_not_found(user_id):
         abort(404)
 
 
+def get_folder_by_nickname(folder_name):
+    session = create_session()
+    folder = session.query(Folder).filter(Folder.name == folder_name).first()
+    if folder:
+        return folder.id
+
+
+def get_unique_name_of_folder():
+    session = create_session()
+    folders = session.query(Folder).all()
+    if folders:
+        max_name = max(folders, key=lambda folder: folder.id).name
+    else:
+        max_name = 'folder 0'
+    new_name = f'{max_name.split()[0]} {str(int(max_name.split()[1]) + 1)}'
+    return new_name
+
+
 class FoldersResource(Resource):
     def get(self, user_id, folder_id):
         abort_if_user_not_found(user_id)
@@ -39,10 +56,10 @@ class FoldersResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if get_api_key(args.access_level) != args.apikey:
+        if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
-        folder = db_sess.query(Folder).filter(Folder.id == folder_id, Folder.owner == user_id).first()
+        folder = db_sess.query(Folder).filter(Folder.id == folder_id).first()
         if not folder:
             return jsonify(
                 {
@@ -63,7 +80,7 @@ class FoldersResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if not (args.access_level == 'admin' and get_api_key(args.access_level) == args.apikey):
+        if args.apikey != admin:
             abort(403)
         try:
             args = parser.parse_args()
@@ -74,9 +91,11 @@ class FoldersResource(Resource):
         db_sess = create_session()
         folder = db_sess.query(Folder).filter(Folder.id == folder_id, Folder.owner == user_id).first()
         if not folder:
-            return jsonify({
-                'args': (user_id, folder_id)
-            })
+            return jsonify(
+                {
+                    'args': (user_id, folder_id)
+                }
+            )
         db_sess.delete(folder)
         folder.name = args.name
         folder.owner = user_id
@@ -89,7 +108,7 @@ class FoldersResource(Resource):
         db_sess.commit()
         return jsonify(
             {
-                'edited_user': folder.to_dict()
+                'edited_folder': folder.to_dict()
             }
         )
 
@@ -100,7 +119,7 @@ class FoldersResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if not (args.access_level == 'admin' and get_api_key(args.access_level) == args.apikey):
+        if args.apikey != admin:
             abort(403)
         session = create_session()
         folder = session.query(Folder).filter(Folder.id == folder_id, Folder.owner == user_id).first()
@@ -121,7 +140,7 @@ class FoldersListResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if get_api_key(args.access_level) != args.apikey:
+        if args.apikey not in [free, pro, admin]:
             abort(403)
         abort_if_user_not_found(user_id)
         db_sess = create_session()
@@ -134,7 +153,7 @@ class FoldersListResource(Resource):
             )
         return jsonify(
             {
-                'users':
+                'folders':
                     [item.to_dict()
                      for item in folders],
                 'status': 200
@@ -146,7 +165,7 @@ class FoldersListResource(Resource):
             args = parser2.parse_args()
         except ValueError:
             abort(403)
-        if not (args.access_level in ['admin', 'pro'] and get_api_key(args.access_level) == args.apikey):
+        if args.apikey not in [pro, admin]:
             abort(403)
         try:
             args = parser.parse_args()

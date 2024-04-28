@@ -1,136 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>aside - Bootstrap 4 web application</title>
-  <meta name="description" content="Responsive, Bootstrap, BS4" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% extends 'base.html' %}
 
-  <!-- for ios 7 style, multi-resolution icon of 152x152 -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
-  <link rel="apple-touch-icon" href="/static/img/logo.png">
-  <meta name="apple-mobile-web-app-title" content="Flatkit">
-  <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="shortcut icon" sizes="196x196" href="/static/img/logo.png">
-  
-  <!-- style -->
-  <link rel="stylesheet" href="/static/css/animate.css/animate.min.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/glyphicons/glyphicons.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/font-awesome/css/font-awesome.min.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/material-design-icons/material-design-icons.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/ionicons/css/ionicons.min.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/simple-line-icons/css/simple-line-icons.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+{% block title %} Главная {% endblock %}
 
-  <!-- build:css css/styles/app.min.css -->
-  <link rel="stylesheet" href="/static/css/styles/app.css" type="text/css" />
-  <link rel="stylesheet" href="/static/css/styles/style.css" type="text/css" />
-  <!-- endbuild -->
-  <link rel="stylesheet" href="/static/css/styles/font.css" type="text/css" />
-</head>
-<body>
-  <div class="app" id="app">
+{% block content %}
 
-<!-- ############ LAYOUT START-->
-
-  <!-- aside -->
-
-  <!-- content -->
-  <div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
-    <div class="app-footer white bg p-a b-t">
-      <div class="pull-right text-sm text-muted">Version 1.0.1</div>
-      <span class="text-sm text-muted">&copy; Copyright.</span>
-    </div>
-    <div class="app-body">
-
-<!-- ############ PAGE START-->
-
-  <div class="item">
-    <div class="item-bg">
-      <img src="/static/img/a2.jpg" class="blur opacity-3">
-    </div>
-    <div class="p-a-md">
-      <div class="row m-t">
-        <div class="col-sm-7">
-          <a href="#" class="pull-left m-r-md">
-            <span class="avatar w-96">
-              <img src="/static/img/a2.jpg">
-              <i class="on b-white"></i>
-            </span>
-          </a>
-          <div class="clear m-b">
-            <!-- Имя-->
-            <h4 class="m-a-0 m-b-sm">Вася Пупкин</h4>
-          </div>
+<center>
+    <h1>Аккаунт</h1>
+</center>
+<div id="content">
+    <div class="columns fs">
+        <div>
+            <h1 style="text-align: center">Сменить пароль</h1>
+            <form name="form" method="post">
+                <div class="form-group">
+                    <!-- поле ввода пароля-->
+                    <center><input type="password" class="form-control1" placeholder="Current password" name="current"
+                                   required></center>
+                </div>
+                <div class="form-group">
+                    <!-- поле ввода нового пароля-->
+                    <center><input type="password" class="form-control1" placeholder="New password" name="new"
+                                   required></center>
+                </div>
+                <!-- кнопка регистрации-->
+                <center><input type="submit" value="change"/></center>
+            </form>
         </div>
-        <div class="col-sm-5">
-          <!--статус-->
-          <p class="text-md profile-status">Нажмите чтобы выйти из аккаунта</p>
-          <div class="p-y text-left">
-              <a href="/login" class="md-btn md-mini md-fab primary"><i class="fa fa-plus"></i></a>
-          </div>
+        <div>
+            <div class="info">
+                Username:
+            </div>
+            <div class="info">
+                {{current_user.nickname}}
+            </div>
+            <br>
+            <div class="info">
+                Email:
+            </div>
+            <div class="info">
+                {{current_user.email}}
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="white bg b-b p-x">
-    <div class="row">
-      <div class="col-sm-6 push-sm-6">
-        <div class="p-y text-center text-sm-right">
-          <a href="#" class="inline p-x b-l b-r text-center">
-            <!-- папки заметки -->
-            <span class="h4 block m-a-0">10</span>
-            <small class="text-xs text-muted">Папок</small>
-          </a>
-          <a href="#" class="inline p-x text-center">
-            <span class="h4 block m-a-0">10</span>
-            <small class="text-xs text-muted">Заметок</small>
-          </a>
-        </div>
-      </div>
-      <div class="col-sm-6 pull-sm-6">
-        <div class="p-y-md clearfix nav-active-info">
-          <ul class="nav nav-pills nav-sm">
-            <li class="nav-item active">
-              <a class="nav-link" href="/main">Заметки</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
-<!-- build:js scripts/app.min.js -->
-<!-- jQuery -->
-  <script src="/static/libs/jquery/dist/jquery.js"></script>
-<!-- Bootstrap -->
-  <script src="/static/libs/tether/dist/js/tether.min.js"></script>
-  <script src="/static/libs/bootstrap/dist/js/bootstrap.js"></script>
-<!-- core -->
-  <script src="/static/libs/jQuery-Storage-API/jquery.storageapi.min.js"></script>
-  <script src="/static/libs/PACE/pace.min.js"></script>
-  <script src="/static/libs/jquery-pjax/jquery.pjax.js"></script>
-  <script src="/static/libs/blockUI/jquery.blockUI.js"></script>
-  <script src="/static/libs/jscroll/jquery.jscroll.min.js"></script>
 
-  <script src="/static/scripts/config.lazyload.js"></script>
-  <script src="/static/scripts/ui-load.js"></script>
-  <script src="/static/scripts/ui-jp.js"></script>
-  <script src="/static/scripts/ui-include.js"></script>
-  <script src="/static/scripts/ui-device.js"></script>
-  <script src="/static/scripts/ui-form.js"></script>
-  <script src="/static/scripts/ui-modal.js"></script>
-  <script src="/static/scripts/ui-nav.js"></script>
-  <script src="/static/scripts/ui-list.js"></script>
-  <script src="/static/scripts/ui-screenfull.js"></script>
-  <script src="/static/scripts/ui-scroll-to.js"></script>
-  <script src="/static/scripts/ui-toggle-class.js"></script>
-  <script src="/static/scripts/ui-taburl.js"></script>
-  <script src="/static/scripts/app.js"></script>
-  <script src="/static/scripts/ajax.js"></script>
-<!-- endbuild -->
-</body>
-</html>
+{% endblock %}
