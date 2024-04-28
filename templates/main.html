@@ -17,6 +17,7 @@
 
             </ul>
             <a href="/add_folder" class="button primary">Добавить папку</a>
+            <a href="/delete_folder" class="button error">Удалить папку</a>
         </div>
         <div>
             <ul class="folders_and_notes">
@@ -30,6 +31,7 @@
 
             </ul>
             <a href="/add_note" class="button primary">Добавить заметку</a>
+            <a href="/delete_note" class="button error">Удалить заметку</a>
         </div>
         <div>
             <h3 style="text-align: center">Редактирование</h3>
@@ -37,6 +39,7 @@
                 <p><textarea id="edit" name="content" cols="50" rows="12" type="text"
                              value='{{address or ""}}'>{{ note_content }}</textarea></p>
                 <input class="button succcess" type="submit" value="Сохранить"/>
+                <input class="button outline primary" type="submit" value="GPT"/>
             </form>
         </div>
     </div>
