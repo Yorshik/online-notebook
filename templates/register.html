@@ -29,6 +29,9 @@
     </div>
     <!-- кнопка регистрации-->
     <center><input type="submit" class="form-control" value="register"/></center>
+    {% if message %}
+    <center><h1>{{ message }}</h1></center>
+    {% endif %}
   </form>
   <!-- ссылка на страницу входа-->
   <center><div>Already have an account? <a href="/login">Sign in</a></div></center>

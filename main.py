@@ -11,7 +11,7 @@ from data import user_resources
 from data.db_session import global_init, create_session
 from data.user import User
 from scripts.api_keys import admin
-#from scripts.send_message import send_msg
+from scripts.send_message import send_msg
 from scripts.yan_gpt import gpt_answer
 
 app = Flask(__name__)
@@ -28,9 +28,17 @@ def load_user(user_id):
 @app.route('/logout')
 @login_required
 def logout():
+    global user_folder_id
+    global login_user_id
+    global folder_note_id
     logout_user()
+    folder_note_id = None
+    login_user_id = None
+    user_folder_id = None
+    return redirect('/')
 
 
+@app.route('/index')
 @app.route('/', methods=["get", "post"])
 def index():
     answer = ""
@@ -57,12 +65,12 @@ def enter_code(nickname, email, code):
     return render_template('enter_code.html')
 
 
-'''@app.route('/forgot_password')
+@app.route('/forgot_password')
 def get_code():
     if request.method == 'POST':
         code = send_msg(request.form.get('email'))
         return redirect(f'/enter_code/{request.form.get('nick')}/{request.form.get('email')}/{hash(str(code))}')
-    return render_template('forgot_password.html')'''
+    return render_template('forgot_password.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -77,7 +85,7 @@ def register():
             'password': request.form.get('pass_1'),
             'email': request.form.get('email')
         }
-        req = requests.post('http://localhost:9999/api/users', json=json_data)
+        req = requests.post('http://127.0.0.1:9999/api/users', json=json_data)
         match req.status_code:
             case 403 | 400:
                 return render_template('register.html', message='troubles on the server')
@@ -103,7 +111,7 @@ def login():
         json_data = {
             'apikey': admin
         }
-        req = requests.get(f'http://localhost:9999/api/users/{user_id}', json=json_data)
+        req = requests.get(f'http://127.0.0.1:9999/api/user/{user_id}', json=json_data)
         match req.status_code:
             case 403:
                 return render_template('login.html', message='troubles in the server')
@@ -120,57 +128,100 @@ def login():
 
 
 @login_required
-@app.route('/load_folder_id/<folder_name>')
-def load_folder_id(folder_name):
+@app.route('/load_folder_id/<folder_id>')
+def load_folder_id(folder_id):
     global user_folder_id
-    folder_id = folder_resources.get_folder_by_nickname(folder_name)
-    if folder_id:
-        user_folder_id = folder_id
+    global folder_note_id
+    user_folder_id = folder_id
+    folder_note_id = None
     return redirect('/main')
 
 
 @login_required
-@app.route('/load_note_id/<note_name>')
-def load_note_id(note_name):
+@app.route('/load_note_id/<note_id>')
+def load_note_id(note_id):
     global folder_note_id
-    note_id = note_resources.get_note_by_nickname(note_name)
-    if note_id:
-        folder_note_id = note_id
+    folder_note_id = note_id
     return redirect('/main')
 
 
 @login_required
 @app.route('/add_note')
 def add_note():
-    unique_name = note_resources.get_unique_name_of_note()
-    json_data = {
-        'apikey': admin,
-        'content': f'{unique_name}\n\n',
-        'name': unique_name
-    }
-    note_req = requests.post(f'http://localhost:9999/api/notes/{login_user_id}/{user_folder_id}', json=json_data)
-    if not note_req:
-        print(note_req.text)
-    return redirect('/main')
+    if user_folder_id:
+        unique_name = note_resources.get_unique_name_of_note(login_user_id, user_folder_id)
+        json_data = {
+            'apikey': admin,
+            'content': f'{unique_name}\n\n',
+            'name': unique_name
+        }
+        note_req = requests.post(f'http://127.0.0.1:9999/api/notes/{user_folder_id}', json=json_data)
+        if not note_req:
+            print('Сайт упал')
+            print(f'Причина: {note_req.text}, asadsadasdas')
+            print(note_req.url, login_user_id)
+            quit()
+        return redirect('/main')
+    return render_template('/main', message='Before adding note - select folder')
 
 
 @login_required
 @app.route('/add_folder')
 def add_folder():
-    unique_name = folder_resources.get_unique_name_of_folder()
+    unique_name = folder_resources.get_unique_name_of_folder(login_user_id)
     json_data = {
         'apikey': admin,
         'name': unique_name
     }
-    folder_req = requests.post(f'http://localhost:9999/api/folders/{login_user_id}', json=json_data)
+    folder_req = requests.post(f'http://127.0.0.1:9999/api/folders/{login_user_id}', json=json_data)
     if not folder_req:
-        print(folder_req.text)
+        print('Сайт упал')
+        print(f'Причина: {folder_req.text}')
+        quit()
     return redirect('/main')
 
 
-@login_required
 @app.route('/main', methods=['GET', 'POST'])
 def main():
+    notes = []
+    content = ''
+    if request.method == 'POST':
+        if folder_note_id:
+            save_content = request.form.get('content')
+            json_save = {
+                'apikey': admin,
+                'name': save_content[:save_content.find('\n')],
+                'content': save_content
+            }
+            save_req = requests.put(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json=json_save)
+            if not save_req:
+                print('Сайт упал')
+                print(f'Причина: {save_req.text}')
+                quit()
+        else:
+            return render_template('/main.html', message='Before saving smth select note')
+    json_data = {
+        'apikey': admin
+    }
+    folders_req = requests.get(f'http://127.0.0.1:9999/api/folders/{login_user_id}', json=json_data)
+    if folders_req:
+        folders = folders_req.json()['folders']
+    else:
+        folders = []
+    if user_folder_id:
+        notes_req = requests.get(f'http://127.0.0.1:9999/api/notes/{user_folder_id}', json=json_data)
+        if notes_req:
+            notes = notes_req.json()['notes']
+        if folder_note_id:
+            content_req = requests.get(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json=json_data)
+            if content_req:
+                content = content_req.json()['note']['content']
+    return render_template('main.html', list_of_folders=folders, list_of_notes=notes, note_content=content)
+
+
+@login_required
+@app.route('/prev_main', methods=['GET', 'POST'])
+def prev_main():
     if request.method == 'POST':
         content = request.form.get('content')
         json_data = {
@@ -180,15 +231,18 @@ def main():
         }
         print(login_user_id, user_folder_id, folder_note_id)
         req = requests.put(
-            f'http://localhost:9999/api/notes/{login_user_id}/{user_folder_id}/{folder_note_id}',
+            f'http://127.0.0.1:9999/api/notes/{login_user_id}/{user_folder_id}/{folder_note_id}',
             json=json_data
         )
         if not req:
             print(req.text)
+
+
+
     json_data = {
         'apikey': admin
     }
-    folders_req = requests.get(f'http://localhost:9999/api/folders/{login_user_id}', json=json_data)
+    folders_req = requests.get(f'http://127.0.0.1:9999/api/folders/{login_user_id}', json=json_data)
     if folders_req:
         folders_json = folders_req.json()
         try:
@@ -201,7 +255,7 @@ def main():
     content = ''
     if user_folder_id:
         notes_req = requests.get(
-            f'http://localhost:9999/api/notes/{login_user_id}/{user_folder_id}', json=json_data
+            f'http://127.0.0.1:9999/api/notes/{login_user_id}/{user_folder_id}', json=json_data
         )
         if folders_req:
             notes_json = notes_req.json()
@@ -213,7 +267,7 @@ def main():
             abort(400)
         if folder_note_id:
             content_req = requests.get(
-                f'http://localhost:9999/api/notes/{login_user_id}/{user_folder_id}/'
+                f'http://127.0.0.1:9999/api/notes/{login_user_id}/{user_folder_id}/'
                 f'{folder_note_id}', json=json_data
             )
             content_json = content_req.json()
@@ -224,29 +278,13 @@ def main():
     return render_template('main.html', list_of_folders=folders, list_of_notes=notes, note_content=content)
 
 
-@app.route('/account', methods=['GET', 'POST'])
-def account():
-    if request.method == 'POST':
-        user_data = requests.get(f'http://localhost:9999/api/users/{login_user_id}', json={'apikey': admin}).json()
-        user = User.from_dict(user_data['user'])
-        json_data = {
-            'apikey': admin,
-            'nickname': user.nickname,
-            'password': user.hashed_password,
-            'email': user.email
-        }
-        req = requests.put(f'http://localhost:9999/api/users/{login_user_id}', json=json_data)
-        if not req:
-            print(req.text)
-    return render_template('account.html')
-
-
 api.add_resource(user_resources.UsersListResource, '/api/users')
-api.add_resource(user_resources.UsersResource, '/api/users/<int:user_id>')
+api.add_resource(user_resources.UsersResource, '/api/user/<int:user_id>')
 api.add_resource(folder_resources.FoldersListResource, '/api/folders/<int:user_id>')
-api.add_resource(folder_resources.FoldersResource, '/api/folders/<int:user_id>/<int:folder_id>')
-api.add_resource(note_resources.NotesListResource, '/api/notes/<int:user_id>/<int:folder_id>')
-api.add_resource(note_resources.NotesResource, '/api/notes/<int:user_id>/<int:folder_id>/<int:note_id>')
+api.add_resource(folder_resources.FoldersResource, '/api/folder/<int:folder_id>')
+api.add_resource(note_resources.NotesListResource, '/api/notes/<int:folder_id>')
+api.add_resource(note_resources.NotesResource, '/api/note/<int:note_id>')
+
 
 if __name__ == '__main__':
     login_user_id = None

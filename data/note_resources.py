@@ -1,11 +1,11 @@
 from flask import jsonify, abort, request
 from flask_restful import Resource, reqparse
-
+import re
 from data.db_session import create_session
-from data.folder import Folder
 from data.note import Note
-from data.user import User
 from scripts.api_keys import free, pro, admin
+from data.user import User
+import time
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
@@ -16,6 +16,11 @@ parser2 = reqparse.RequestParser()
 parser2.add_argument('apikey', required=True)
 
 
+def match_name(string: str, pattern: str) -> bool:
+    pattern = pattern.replace("<int>", r"\d+").replace("<str>", r".+")
+    return bool(re.match(pattern, string))
+
+
 def abort_if_note_not_found(note_id):
     session = create_session()
     note = session.query(Note).filter(Note.id == note_id).first()
@@ -23,57 +28,37 @@ def abort_if_note_not_found(note_id):
         abort(404)
 
 
-def abort_if_folder_not_found(folder_id):
+def get_unique_name_of_note(user_id, folder_id):
+    t1 = time.time()
     session = create_session()
-    folder = session.query(Folder).filter(Folder.id == folder_id).first()
-    if not folder:
-        abort(404)
-
-
-def abort_if_user_not_found(user_id):
-    session = create_session()
+    notes = session.query(Note).filter(Note.the_folder == folder_id).all()
     user = session.query(User).filter(User.id == user_id).first()
-    if not user:
-        abort(404)
-
-
-def get_unique_name_of_note():
-    session = create_session()
-    notes = session.query(Note).all()
     if notes:
-        max_name = max(notes, key=lambda note: note.id).name
+        max_name = max(notes, key=lambda note: (note.id, match_name(note.name, f'{user.nickname} note <int>'))).name
     else:
-        max_name = 'note 0'
-    new_name = f'{max_name.split()[0]} {str(int(max_name.split()[1]) + 1)}'
+        max_name = f'{user.nickname} note 0'
+    new_name = f'{max_name.split()[0]} {max_name.split()[1]} {str(int(max_name.split()[2]) + 1)}'
+    t2 = time.time()
+    print(t2 - t1, f'get unique name of note, user id: {user_id}, folder id: {folder_id}')
     return new_name
 
 
-def get_note_by_nickname(note_name):
-    session = create_session()
-    note = session.query(Note).filter(Note.name == note_name).first()
-    if note:
-        return note.id
-
-
 class NotesResource(Resource):
-    def get(self, user_id, folder_id, note_id):
-        abort_if_user_not_found(user_id)
-        abort_if_folder_not_found(folder_id)
+    def get(self, note_id):
+        t1 = time.time()
         abort_if_note_not_found(note_id)
         try:
-            args = parser2.parse_args()
+            args = parser2.parse_args(strict=True)
         except ValueError:
-            abort(403)
+            abort(400)
         if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
-        note = db_sess.query(Note).filter((Note.id == note_id) & (Note.the_folder == folder_id)).first()
+        note = db_sess.query(Note).filter(Note.id == note_id).first()
         if not note:
-            return jsonify(
-                {
-                    'args': (user_id, folder_id, note_id)
-                }
-            )
+            abort(422)
+        t2 = time.time()
+        print(t2 - t1, f'get request, note id: {note_id}')
         return jsonify(
             {
                 'note': note.to_dict(),
@@ -81,7 +66,8 @@ class NotesResource(Resource):
             }
         )
 
-    def put(self, user_id, folder_id, note_id):
+    def put(self, note_id):
+        t1 = time.time()
         if not request.json:
             abort(400)
         try:
@@ -94,30 +80,22 @@ class NotesResource(Resource):
             args = parser.parse_args()
         except ValueError:
             abort(400)
-        abort_if_user_not_found(user_id)
-        abort_if_folder_not_found(folder_id)
         abort_if_note_not_found(note_id)
         db_sess = create_session()
-        note = db_sess.query(Note).filter(
-            (Note.id == note_id) & (Note.the_folder == folder_id)
-        ).first()
+        note = db_sess.query(Note).filter(Note.id == note_id).first()
         if not note:
-            return jsonify(
-                {
-                    'args': (user_id, folder_id, note_id)
-                }
-            )
-        # db_sess.delete(note)
-        # db_sess.commit()
+            abort(422)
+        db_sess.delete(note)
         note.name = args.name
         note.content = args.content
-        # note.id = note_id
         if args.password:
             note.set_password(args.password)
         else:
             note.hashed_password = 'none'
         db_sess.add(note)
         db_sess.commit()
+        t2 = time.time()
+        print(t2 - t1, f'put request, note id: {note_id}')
         return jsonify(
             {
                 'edited_note': note.to_dict()
@@ -125,8 +103,7 @@ class NotesResource(Resource):
         )
 
     def delete(self, user_id, folder_id, note_id):
-        abort_if_user_not_found(user_id)
-        abort_if_folder_not_found(folder_id)
+        t1 = time.time()
         abort_if_note_not_found(note_id)
         try:
             args = parser2.parse_args(strict=True)
@@ -139,18 +116,17 @@ class NotesResource(Resource):
             Note.id == note_id, Note.the_folder == folder_id
         ).first()
         if not note:
-            return jsonify(
-                {
-                    'args': (user_id, folder_id, note_id)
-                }
-            )
+            abort(422)
         session.delete(note)
         session.commit()
+        t2 = time.time()
+        print(t2 - t1, f'delete request, note id: {note_id}')
         return jsonify({'success': 'OK'})
 
 
 class NotesListResource(Resource):
-    def get(self, user_id, folder_id):
+    def get(self, folder_id):
+        t1 = time.time()
         try:
             args = parser2.parse_args(strict=True)
         except ValueError:
@@ -160,11 +136,9 @@ class NotesListResource(Resource):
         db_sess = create_session()
         notes = db_sess.query(Note).filter(Note.the_folder == folder_id).all()
         if not notes:
-            return jsonify(
-                {
-                    'args': (user_id, folder_id)
-                }
-            )
+            abort(422)
+        t2 = time.time()
+        print(t2 - t1, f'many get request, folder id: {folder_id}')
         return jsonify(
             {
                 'notes':
@@ -174,7 +148,8 @@ class NotesListResource(Resource):
             }
         )
 
-    def post(self, user_id, folder_id):
+    def post(self, folder_id):
+        t1 = time.time()
         try:
             args = parser2.parse_args()
         except ValueError:
@@ -184,18 +159,11 @@ class NotesListResource(Resource):
         try:
             args = parser.parse_args()
         except ValueError:
-            return jsonify(
-                {
-                    'error': 'Bad request'
-                }
-            )
-        abort_if_user_not_found(user_id)
-        abort_if_folder_not_found(folder_id)
+            abort(400)
         session = create_session()
         note = Note()
         note.name = args.name
         note.the_folder = folder_id
-        # note.folder.owner = user_id
         note.content = args.content
         if args.password:
             note.set_password(args.password)
@@ -203,4 +171,6 @@ class NotesListResource(Resource):
             note.hashed_password = 'none'
         session.add(note)
         session.commit()
+        t2 = time.time()
+        print(t2 - t1, f'post request, folder id: {folder_id}')
         return jsonify({'id': note.id})
