@@ -1,11 +1,13 @@
+import re
+import time
+
 from flask import jsonify, abort, request
 from flask_restful import Resource, reqparse
-import re
+
 from data.db_session import create_session
 from data.note import Note
-from scripts.api_keys import free, pro, admin
 from data.user import User
-import time
+from scripts.api_keys import free, pro, admin
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
@@ -98,11 +100,11 @@ class NotesResource(Resource):
         print(t2 - t1, f'put request, note id: {note_id}')
         return jsonify(
             {
-                'edited_note': note.to_dict()
+                'note': note.to_dict()
             }
         )
 
-    def delete(self, user_id, folder_id, note_id):
+    def delete(self, folder_id, note_id):
         t1 = time.time()
         abort_if_note_not_found(note_id)
         try:
@@ -173,4 +175,4 @@ class NotesListResource(Resource):
         session.commit()
         t2 = time.time()
         print(t2 - t1, f'post request, folder id: {folder_id}')
-        return jsonify({'id': note.id})
+        return jsonify({'note': note.to_dict()})

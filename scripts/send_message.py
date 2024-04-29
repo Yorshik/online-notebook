@@ -2,6 +2,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from random import randint
+
 from scripts.api_keys import app_pass
 
 TITLE = 'Восстановление пароля'

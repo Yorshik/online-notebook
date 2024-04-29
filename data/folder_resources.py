@@ -1,14 +1,15 @@
 import datetime
+import re
+import time
 
 import sqlalchemy
 from flask import jsonify, abort, request
 from flask_restful import Resource, reqparse
-import time
+
 from data.db_session import create_session
 from data.folder import Folder
 from data.user import User
 from scripts.api_keys import free, pro, admin
-import re
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', required=True)
@@ -63,7 +64,7 @@ class FoldersResource(Resource):
         print(t2 - t1, f'get request, folder id: {folder_id}')
         return jsonify(
             {
-                'user': folder.to_dict(),
+                'folder': folder.to_dict(),
                 'status': 200
             }
         )
@@ -100,7 +101,7 @@ class FoldersResource(Resource):
         print(t2 - t1, f'put request, folder id: {folder_id}')
         return jsonify(
             {
-                'edited_folder': folder.to_dict()
+                'folder': folder.to_dict()
             }
         )
 
@@ -176,4 +177,4 @@ class FoldersListResource(Resource):
         session.commit()
         t2 = time.time()
         print(t2 - t1, f'post request, user id: {user_id}')
-        return jsonify({'id': folder.id})
+        return jsonify({'folder': folder.to_dict()})

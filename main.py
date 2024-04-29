@@ -1,8 +1,9 @@
 import datetime
+import sys
 
 import requests
-from flask import Flask, render_template, request, redirect, abort
-from flask_login import login_user, logout_user, LoginManager, login_required
+from flask import Flask, render_template, request, redirect
+from flask_login import login_user, logout_user, LoginManager
 from flask_restful import Api
 
 from data import folder_resources
@@ -26,7 +27,7 @@ def load_user(user_id):
 
 
 @app.route('/logout')
-@login_required
+# @login_required
 def logout():
     global user_folder_id
     global login_user_id
@@ -49,27 +50,39 @@ def index():
     return render_template('index.html', ask=ask, answer=answer)
 
 
-@app.route('/enter_code/<nickname>/<email>/<code>')
-def enter_code(nickname, email, code):
+@app.route('/enter_code/<int:user_id>/<nickname>/<email>/<code>', methods=['GET', 'POST'])
+def enter_code(user_id, nickname, email, code):
     if request.method == 'POST':
-        if hash(request.form.get('code')) == code:
-            user = User.from_dict(
-                {
-                    'nickname': nickname,
-                    'email': email,
-                    'password': '1234'
-                }
-            )
-            login_user(user)
+        if str(hash(request.form.get('code'))) == code:
+            json_data = {
+                'apikey': admin,
+                'nickname': nickname,
+                'email': email,
+                'password': '1234'
+            }
+            requests.delete(f'http://127.0.0.1:9999/api/user/{user_id}', json={'apikey': admin})
+            req = requests.post(f'http://127.0.0.1:9999/api/users', json=json_data)
+            if not req:
+                print('Сайт упал')
+                print(f'Причина: {req.text}')
+                sys.exit(1)
+            new_user = User.from_dict(req.json()['user'])
+            login_user(new_user)
         return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
     return render_template('enter_code.html')
 
 
-@app.route('/forgot_password')
+@app.route('/forgot_password', methods=['GET', 'POST'])
 def get_code():
     if request.method == 'POST':
-        code = send_msg(request.form.get('email'))
-        return redirect(f'/enter_code/{request.form.get('nick')}/{request.form.get('email')}/{hash(str(code))}')
+        nickname = request.form.get('nickname')
+        user_id = user_resources.get_user_by_nickname(nickname)
+        req = requests.get(f'http://127.0.0.1:9999/api/user/{user_id}', json={'apikey': admin})
+        if not req:
+            return render_template('forgot_password.html', message='User not found')
+        email = req.json()['user']['email']
+        code = send_msg(email)
+        return redirect(f'/enter_code/{user_id}/{nickname}/{email}/{hash(str(code))}')
     return render_template('forgot_password.html')
 
 
@@ -122,13 +135,13 @@ def login():
         user = User.from_dict(req_json['user'])
         if not user.check_password(request.form.get('password')):
             return render_template('login.html', message='incorrect login or password')
-        login_user(user)
+        login_user(user, remember=True)
         return redirect('/main')
     return render_template('login.html')
 
 
-@login_required
 @app.route('/load_folder_id/<folder_id>')
+# @login_required
 def load_folder_id(folder_id):
     global user_folder_id
     global folder_note_id
@@ -137,16 +150,16 @@ def load_folder_id(folder_id):
     return redirect('/main')
 
 
-@login_required
 @app.route('/load_note_id/<note_id>')
+# @login_required
 def load_note_id(note_id):
     global folder_note_id
     folder_note_id = note_id
     return redirect('/main')
 
 
-@login_required
 @app.route('/add_note')
+# @login_required
 def add_note():
     if user_folder_id:
         unique_name = note_resources.get_unique_name_of_note(login_user_id, user_folder_id)
@@ -165,8 +178,8 @@ def add_note():
     return render_template('/main', message='Before adding note - select folder')
 
 
-@login_required
 @app.route('/add_folder')
+# @login_required
 def add_folder():
     unique_name = folder_resources.get_unique_name_of_folder(login_user_id)
     json_data = {
@@ -182,6 +195,7 @@ def add_folder():
 
 
 @app.route('/main', methods=['GET', 'POST'])
+# @login_required
 def main():
     notes = []
     content = ''
@@ -219,72 +233,12 @@ def main():
     return render_template('main.html', list_of_folders=folders, list_of_notes=notes, note_content=content)
 
 
-@login_required
-@app.route('/prev_main', methods=['GET', 'POST'])
-def prev_main():
-    if request.method == 'POST':
-        content = request.form.get('content')
-        json_data = {
-            'apikey': admin,
-            'name': content[:content.find('\n')],
-            'content': content
-        }
-        print(login_user_id, user_folder_id, folder_note_id)
-        req = requests.put(
-            f'http://127.0.0.1:9999/api/notes/{login_user_id}/{user_folder_id}/{folder_note_id}',
-            json=json_data
-        )
-        if not req:
-            print(req.text)
-
-
-
-    json_data = {
-        'apikey': admin
-    }
-    folders_req = requests.get(f'http://127.0.0.1:9999/api/folders/{login_user_id}', json=json_data)
-    if folders_req:
-        folders_json = folders_req.json()
-        try:
-            folders = folders_json['folders']
-        except KeyError:
-            folders = []
-    else:
-        abort(404)
-    notes = []
-    content = ''
-    if user_folder_id:
-        notes_req = requests.get(
-            f'http://127.0.0.1:9999/api/notes/{login_user_id}/{user_folder_id}', json=json_data
-        )
-        if folders_req:
-            notes_json = notes_req.json()
-            try:
-                notes = notes_json['notes']
-            except KeyError:
-                notes = []
-        else:
-            abort(400)
-        if folder_note_id:
-            content_req = requests.get(
-                f'http://127.0.0.1:9999/api/notes/{login_user_id}/{user_folder_id}/'
-                f'{folder_note_id}', json=json_data
-            )
-            content_json = content_req.json()
-            try:
-                content = content_json['note']['content']
-            except KeyError:
-                print(content_req.text)
-    return render_template('main.html', list_of_folders=folders, list_of_notes=notes, note_content=content)
-
-
 api.add_resource(user_resources.UsersListResource, '/api/users')
 api.add_resource(user_resources.UsersResource, '/api/user/<int:user_id>')
 api.add_resource(folder_resources.FoldersListResource, '/api/folders/<int:user_id>')
 api.add_resource(folder_resources.FoldersResource, '/api/folder/<int:folder_id>')
 api.add_resource(note_resources.NotesListResource, '/api/notes/<int:folder_id>')
 api.add_resource(note_resources.NotesResource, '/api/note/<int:note_id>')
-
 
 if __name__ == '__main__':
     login_user_id = None

@@ -74,7 +74,7 @@ class UsersResource(Resource):
             abort(406)
         return jsonify(
             {
-                'edited_user': user.to_dict()
+                'user': user.to_dict()
             }
         )
 
