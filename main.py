@@ -3,7 +3,7 @@ import sys
 
 import requests
 from flask import Flask, render_template, request, redirect
-from flask_login import login_user, logout_user, LoginManager
+from flask_login import login_user, logout_user, LoginManager, login_required
 from flask_restful import Api
 
 from data import folder_resources
@@ -15,15 +15,19 @@ from scripts.api_keys import admin
 from scripts.send_message import send_msg
 from scripts.yan_gpt import gpt_answer
 
+
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
 api = Api(app)
 login_manager = LoginManager(app)
+login_manager.init_app(app)
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db_sess.query(User).filter(User.id == user_id).first()
+    db_sess = create_session()
+    user = db_sess.query(User).get(user_id)
+    return user
 
 
 @app.route('/logout')
@@ -218,6 +222,8 @@ def main():
         'apikey': admin
     }
     folders_req = requests.get(f'http://127.0.0.1:9999/api/folders/{login_user_id}', json=json_data)
+    if folders_req.status_code == 500:
+        return redirect('/main')
     if folders_req:
         folders = folders_req.json()['folders']
     else:
@@ -245,6 +251,4 @@ if __name__ == '__main__':
     user_folder_id = None
     folder_note_id = None
     global_init('db/online_notebook.db')
-    db_sess = create_session()
-    app.run(host='127.0.0.1', port='9999')
-    db_sess.close()
+    app.run(host='127.0.0.1', port=9999)

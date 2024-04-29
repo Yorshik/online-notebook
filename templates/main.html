@@ -8,7 +8,7 @@
         <div>
             <ul class="folders_and_notes">
                 {% for item in list_of_folders %}
-                <li><a href='/load_folder_id/{{item["name"]}}'>
+                <li><a href='/load_folder_id/{{item["id"]}}'>
                     <div class="name">
                         {{item["name"]}}
                     </div>
@@ -22,7 +22,7 @@
         <div>
             <ul class="folders_and_notes">
                 {% for item in list_of_notes %}
-                <li><a href='/load_note_id/{{item["name"]}}'>
+                <li><a href='/load_note_id/{{item["id"]}}'>
                     <div class="name">
                         {{item["name"]}}
                     </div>
@@ -40,8 +40,14 @@
                              value='{{address or ""}}'>{{ note_content }}</textarea></p>
                 <input class="button succcess" type="submit" value="Сохранить"/>
                 <input class="button outline primary" type="submit" value="GPT"/>
+                <input class="button error" onclick="refreshPage()" value="Перезагрузить (если данные не загрузились)">
             </form>
         </div>
     </div>
 </div>
+<script>
+    function refreshPage() {
+        location.reload();
+    }
+</script>
 {% endblock %}

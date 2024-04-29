@@ -36,10 +36,9 @@ def get_unique_name_of_note(user_id, folder_id):
     notes = session.query(Note).filter(Note.the_folder == folder_id).all()
     user = session.query(User).filter(User.id == user_id).first()
     if notes:
-        max_name = max(notes, key=lambda note: (note.id, match_name(note.name, f'{user.nickname} note <int>'))).name
+        new_name = f'{user.nickname} note {len(notes) + 1}'
     else:
-        max_name = f'{user.nickname} note 0'
-    new_name = f'{max_name.split()[0]} {max_name.split()[1]} {str(int(max_name.split()[2]) + 1)}'
+        new_name = f'{user.nickname} note 1'
     t2 = time.time()
     print(t2 - t1, f'get unique name of note, user id: {user_id}, folder id: {folder_id}')
     return new_name
