@@ -16,16 +16,14 @@
 
     <div class="form-group">
         <!-- поле ввода ника-->
-        <center><input type="text" class="form-control" placeholder="Username" name="nickname" required></center>
+        <center><input type="text" class="form-control" placeholder="Имя пользователя" name="nickname" required></center>
     </div>
     <div class="form-group">
         <!-- поле ввода пароля-->
-        <center><input type="password" class="form-control" placeholder="Password" name="password" required></center>
+        <center><input type="password" class="form-control" placeholder="Пароль" name="password" required></center>
     </div>
-    <!-- чекбокс запомнить меня-->
-    <center><input type="checkbox" id="name_it_yourself" name="remember_me">Keep me signed in</center>
     <!-- кнопка регистрации-->
-    <center><input type="submit" class="form-control" value="sign in"/></center>
+    <center><input type="submit" class="form-control" value="Войти"/></center>
     {% if message %}
     <center>
         <h1>{{ message }}</h1>
@@ -34,13 +32,13 @@
 </form>
 <center>
     <div class="default_text">
-        <a href="/forgot_password">Forgot password?</a>
+        <a href="/forgot_password">Забыли пароль?</a>
     </div>
 </center>
 <center>
     <div>
-        Do not have an account?
-        <a href="/register" class="text-primary _600">Registration</a>
+        Еще нет аккаунта?
+        <a href="/register" class="text-primary _600">Регистрация</a>
     </div>
 </center>
 </body>

@@ -13,27 +13,27 @@
   <form name="form" method="POST">
     <div class="form-group">
       <!-- поле ввода ника-->
-      <center><input type="text" class="form-control" placeholder="Username" name="nickname" required></center>
+      <center><input type="text" class="form-control" placeholder="Имя пользователя" name="nickname" required></center>
     </div>
     <div class="form-group">
       <!-- поле ввода почты-->
-      <center><input type="email" class="form-control" placeholder="Email" name="email" required></center>
+      <center><input type="email" class="form-control" placeholder="Почта" name="email" required></center>
     </div>
     <div class="form-group">
       <!-- поле ввода пароля-->
-      <center><input type="password" class="form-control" placeholder="Password" name="pass_1" required></center>
+      <center><input type="password" class="form-control" placeholder="Пароль" name="pass_1" required></center>
     </div>
     <div class="form-group">
       <!-- поле ввода пароля-->
-      <center><input type="password" class="form-control" placeholder="Confirmation" name="pass_2" required></center>
+      <center><input type="password" class="form-control" placeholder="Повторите пароль" name="pass_2" required></center>
     </div>
     <!-- кнопка регистрации-->
-    <center><input type="submit" class="form-control" value="register"/></center>
+    <center><input type="submit" class="form-control" value="Регистрация"/></center>
     {% if message %}
     <center><h1>{{ message }}</h1></center>
     {% endif %}
   </form>
   <!-- ссылка на страницу входа-->
-  <center><div>Already have an account? <a href="/login">Sign in</a></div></center>
+  <center><div>Уже есть аккаунт? <a href="/login">Войти</a></div></center>
 </body>
 </html>

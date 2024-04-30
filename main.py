@@ -3,7 +3,7 @@ import sys
 
 import requests
 from flask import Flask, render_template, request, redirect
-from flask_login import login_user, logout_user, LoginManager, login_required
+from flask_login import login_user, logout_user, LoginManager, login_required, current_user
 from flask_restful import Api
 
 from data import folder_resources
@@ -23,6 +23,7 @@ app.secret_key = 'online_notebook_project'
 api = Api(app)
 login_manager = LoginManager(app)
 login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 
 @login_manager.user_loader
@@ -33,7 +34,7 @@ def load_user(user_id):
 
 
 @app.route('/logout')
-# @login_required
+@login_required
 def logout():
     global user_folder_id
     global login_user_id
@@ -74,8 +75,12 @@ def enter_code(user_id, nickname, email, code):
                 sys.exit(1)
             new_user = User.from_dict(req.json()['user'])
             login_user(new_user)
-        return '<h1>Your new password: 1234</h1><a href="/main">Главная</a>'
+        return redirect("/enter_password")
     return render_template('enter_code.html')
+
+@app.route("/enter_password")
+def enter_password():
+    return render_template('enter_password.html')
 
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
@@ -95,6 +100,8 @@ def get_code():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     global login_user_id
+    if current_user.is_authenticated:
+        return redirect('/main')
     if request.method == 'POST':
         if request.form.get('pass_1') != request.form.get('pass_2'):
             return render_template('register.html', message='Пароли не совпадают')
@@ -122,6 +129,8 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     global login_user_id
+    if current_user.is_authenticated:
+        return redirect('/main')
     if request.method == 'POST':
         user_id = user_resources.get_user_by_nickname(request.form.get('nickname'))
         login_user_id = user_id
@@ -147,7 +156,7 @@ def login():
 
 
 @app.route('/load_folder_id/<folder_id>')
-# @login_required
+@login_required
 def load_folder_id(folder_id):
     global user_folder_id
     global folder_note_id
@@ -157,7 +166,7 @@ def load_folder_id(folder_id):
 
 
 @app.route('/load_note_id/<note_id>')
-# @login_required
+@login_required
 def load_note_id(note_id):
     global folder_note_id
     folder_note_id = note_id
@@ -165,7 +174,7 @@ def load_note_id(note_id):
 
 
 @app.route('/add_note')
-# @login_required
+@login_required
 def add_note():
     if user_folder_id:
         unique_name = note_resources.get_unique_name_of_note(login_user_id, user_folder_id)
@@ -185,7 +194,7 @@ def add_note():
 
 
 @app.route('/add_folder')
-# @login_required
+@login_required
 def add_folder():
     unique_name = folder_resources.get_unique_name_of_folder(login_user_id)
     json_data = {
@@ -201,7 +210,7 @@ def add_folder():
 
 
 @app.route('/delete_note')
-# @login_required
+@login_required
 def delete_note():
     global folder_note_id
     requests.delete(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json={'apikey': admin})
@@ -210,7 +219,7 @@ def delete_note():
 
 
 @app.route('/delete_folder')
-# @login_required
+@login_required
 def delete_folder():
     global user_folder_id
     requests.delete(f'http://127.0.0.1:9999/api/folder/{user_folder_id}', json={'apikey': admin})
@@ -219,7 +228,7 @@ def delete_folder():
 
 
 @app.route('/main', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def main():
     notes = []
     content = ''
