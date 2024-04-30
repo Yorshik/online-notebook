@@ -38,8 +38,8 @@
             <form action="/main" method="POST">
                 <p><textarea id="edit" name="content" cols="50" rows="12" type="text"
                              value='{{address or ""}}'>{{ note_content }}</textarea></p>
-                <input class="button succcess" type="submit" value="Сохранить"/>
-                <input class="button outline primary" type="button" formmethod="get" value="GPT"/>
+                <input class="button succcess" type="submit" name="btn" value="Сохранить"/>
+                <input class="button outline primary" type="submit" name="btn" value="GPT"/>
             </form>
         </div>
     </div>

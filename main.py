@@ -233,21 +233,37 @@ def main():
     notes = []
     content = ''
     if request.method == 'POST':
-
-        if folder_note_id:
-            save_content = request.form.get('content')
-            json_save = {
+        button = request.form.get('btn')
+        if button == 'Сохранить':
+            if folder_note_id:
+                save_content = request.form.get('content')
+                if "\n" in save_content:
+                    name = save_content[:save_content.find('\n')]
+                else:
+                    name = save_content
+                json_save = {
+                    'apikey': admin,
+                    'name': name,
+                    'content': save_content
+                }
+                save_req = requests.put(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json=json_save)
+                if not save_req:
+                    print('Сайт упал')
+                    print(f'Причина: {save_req.text}')
+                    quit()
+            else:
+                return render_template('/main.html', message='Before saving smth select note')
+        elif button == 'GPT':
+            json_data = {
                 'apikey': admin,
-                'name': save_content[:save_content.find('\n')],
-                'content': save_content
+                "content": request.form.get('content')
             }
-            save_req = requests.put(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json=json_save)
-            if not save_req:
-                print('Сайт упал')
-                print(f'Причина: {save_req.text}')
-                quit()
-        else:
-            return render_template('/main.html', message='Before saving smth select note')
+            content_req = requests.get(f'http://127.0.0.1:9999//api/drive_through_gpt', json=json_data)
+            if content_req.status_code == 500:
+                return redirect('/main')
+            if content_req:
+                content = content_req.json()['content']
+
     json_data = {
         'apikey': admin
     }
@@ -262,7 +278,7 @@ def main():
         notes_req = requests.get(f'http://127.0.0.1:9999/api/notes/{user_folder_id}', json=json_data)
         if notes_req:
             notes = notes_req.json()['notes']
-        if folder_note_id:
+        if folder_note_id and not content:
             content_req = requests.get(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json=json_data)
             if content_req:
                 content = content_req.json()['note']['content']

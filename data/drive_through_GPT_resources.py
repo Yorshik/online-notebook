@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask import jsonify, abort
 from scripts.api_keys import admin
-from scripts.yan_gpt import gpt_answer
+from scripts.yan_gpt import drive_through
 
 parser = reqparse.RequestParser()
 parser.add_argument('apikey', required=True)
@@ -18,7 +18,7 @@ class DriveThroughGPTResource(Resource):
             abort(403)
         try:
             ask = args.content
-            answer = gpt_answer(ask)
+            answer = drive_through(ask)
         except Exception as error:
             print(f"Ошибка: {error}")
             abort(500)
