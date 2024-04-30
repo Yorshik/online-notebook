@@ -255,7 +255,7 @@ def main():
                     quit()
             else:
                 return render_template('/main.html', message='Before saving smth select note')
-        elif button == 'GPT':
+        elif button == 'Исправить':
             json_data = {
                 'apikey': admin,
                 "content": request.form.get('content')
