@@ -14,16 +14,22 @@ from data.user import User
 from scripts.api_keys import admin
 from scripts.send_message import send_msg
 from scripts.yan_gpt import gpt_answer
+from data import drive_through_GPT_resources
+
+
 
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
 api = Api(app)
 login_manager = LoginManager(app)
+login_manager.init_app(app)
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db_sess.query(User).filter(User.id == user_id).first()
+    db_sess = create_session()
+    user = db_sess.query(User).get(user_id)
+    return user
 
 
 @app.route('/logout')
@@ -218,6 +224,7 @@ def main():
     notes = []
     content = ''
     if request.method == 'POST':
+
         if folder_note_id:
             save_content = request.form.get('content')
             json_save = {
@@ -236,6 +243,8 @@ def main():
         'apikey': admin
     }
     folders_req = requests.get(f'http://127.0.0.1:9999/api/folders/{login_user_id}', json=json_data)
+    if folders_req.status_code == 500:
+        return redirect('/main')
     if folders_req:
         folders = folders_req.json()['folders']
     else:
@@ -248,6 +257,7 @@ def main():
             content_req = requests.get(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json=json_data)
             if content_req:
                 content = content_req.json()['note']['content']
+
     return render_template('main.html', list_of_folders=folders, list_of_notes=notes, note_content=content)
 
 
@@ -257,12 +267,11 @@ api.add_resource(folder_resources.FoldersListResource, '/api/folders/<int:user_i
 api.add_resource(folder_resources.FoldersResource, '/api/folder/<int:folder_id>')
 api.add_resource(note_resources.NotesListResource, '/api/notes/<int:folder_id>')
 api.add_resource(note_resources.NotesResource, '/api/note/<int:note_id>')
+api.add_resource(drive_through_GPT_resources.DriveThroughGPTResource, '/api/drive_through_gpt')
 
 if __name__ == '__main__':
     login_user_id = None
     user_folder_id = None
     folder_note_id = None
     global_init('db/online_notebook.db')
-    db_sess = create_session()
-    app.run(host='127.0.0.1', port='9999')
-    db_sess.close()
+    app.run(host='127.0.0.1', port=9999)

@@ -1,6 +1,5 @@
 import sqlalchemy
 from flask_login import UserMixin
-from sqlalchemy.orm import relationship
 from sqlalchemy_serializer import SerializerMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -14,7 +13,6 @@ class Note(SqlAlchemyBase, UserMixin, SerializerMixin):
     the_folder = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('folders.id'))
     hashed_password = sqlalchemy.Column(sqlalchemy.String, default='none')
     content = sqlalchemy.Column(sqlalchemy.String)
-    folder = relationship('Folder')
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

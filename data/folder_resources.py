@@ -37,10 +37,9 @@ def get_unique_name_of_folder(user_id):
     folders = session.query(Folder).filter(Folder.owner == user_id).all()
     user = session.query(User).filter(User.id == user_id).first()
     if folders:
-        max_name = max(folders, key=lambda note: (note.id, match_name(note.name, f'{user.nickname} folder <int>'))).name
+        new_name = f'{user.nickname} folder {len(folders) + 1}'
     else:
-        max_name = f'{user.nickname} folder 0'
-    new_name = f'{max_name.split()[0]} {max_name.split()[1]} {str(int(max_name.split()[2]) + 1)}'
+        new_name = f'{user.nickname} folder 1'
     t2 = time.time()
     print(t2 - t1, f'get unique name of folder, user id: {user_id}')
     return new_name
@@ -138,7 +137,7 @@ class FoldersListResource(Resource):
         try:
             folders = db_sess.query(Folder).filter(Folder.owner == user_id).all()
         except sqlalchemy.exc.TimeoutError:
-            print(user_id)
+            abort(500)
         if not folders:
             abort(422)
         t2 = time.time()
