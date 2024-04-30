@@ -24,9 +24,13 @@ def abort_if_user_not_found(user_id):
 
 def get_user_by_nickname(user_nickname):
     session = create_session()
-    user = session.query(User).filter(User.nickname == user_nickname).first()
-    if user:
-        return user.id
+    print(user_nickname, 'scuka')
+    users = session.query(User).all()
+    for user in users:
+        if user.nickname == user_nickname:
+            print(user)
+            return user.id
+    return user.id
 
 
 class UsersResource(Resource):
@@ -39,13 +43,16 @@ class UsersResource(Resource):
         if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
-        user = db_sess.query(User).filter(User.id == user_id).first()
-        return jsonify(
-            {
-                'user': user.to_dict(),
-                'status': 200
-            }
-        )
+        users = db_sess.query(User).all()
+        for user in users:
+            if user.id == user_id:
+                return jsonify(
+                    {
+                        'user': user.to_dict(),
+                        'status': 200
+                    }
+                )
+        abort(404)
 
     def put(self, user_id):
         if not request.json:
@@ -62,7 +69,10 @@ class UsersResource(Resource):
             abort(400)
         abort_if_user_not_found(user_id)
         db_sess = create_session()
-        user = db_sess.query(User).filter(User.id == user_id).first()
+        users = db_sess.query(User).all()
+        for db_user in users:
+            if db_user.id == user_id:
+                user = db_user
         db_sess.delete(user)
         user.email = args.email
         user.set_password(args.password)
@@ -87,7 +97,10 @@ class UsersResource(Resource):
         if args.apikey != admin:
             abort(403)
         session = create_session()
-        user = session.query(User).get(user_id)
+        users = session.query(User).all()
+        for db_user in users:
+            if db_user.id == user_id:
+                user = db_user
         session.delete(user)
         session.commit()
         return jsonify({'success': 'OK'})

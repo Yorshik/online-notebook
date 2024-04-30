@@ -17,7 +17,6 @@ from scripts.yan_gpt import gpt_answer
 from data import drive_through_GPT_resources
 
 
-
 app = Flask(__name__)
 app.secret_key = 'online_notebook_project'
 api = Api(app)
@@ -78,6 +77,7 @@ def enter_code(user_id, nickname, email, code):
         return redirect("/enter_password")
     return render_template('enter_code.html')
 
+
 @app.route("/enter_password")
 def enter_password():
     return render_template('enter_password.html')
@@ -121,6 +121,7 @@ def register():
                 req_json = req.json()
         user = User.from_dict(req_json['user'])
         login_user_id = user.id
+        print(user.id)
         login_user(user, remember=True, duration=datetime.timedelta(hours=1))
         return redirect('/main')
     return render_template('register.html')
@@ -155,7 +156,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/load_folder_id/<folder_id>')
+@app.route('/load_folder_id/<int:folder_id>')
 @login_required
 def load_folder_id(folder_id):
     global user_folder_id
@@ -165,7 +166,7 @@ def load_folder_id(folder_id):
     return redirect('/main')
 
 
-@app.route('/load_note_id/<note_id>')
+@app.route('/load_note_id/<int:note_id>')
 @login_required
 def load_note_id(note_id):
     global folder_note_id
@@ -196,6 +197,7 @@ def add_note():
 @app.route('/add_folder')
 @login_required
 def add_folder():
+    print(login_user_id, '/add_folder')
     unique_name = folder_resources.get_unique_name_of_folder(login_user_id)
     json_data = {
         'apikey': admin,

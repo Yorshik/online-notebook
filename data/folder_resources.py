@@ -26,7 +26,11 @@ def match_name(string: str, pattern: str) -> bool:
 
 def abort_if_folder_not_found(folder_id):
     session = create_session()
-    folder = session.query(Folder).filter(Folder.id == folder_id).first()
+    folders = session.query(Folder).all()
+    for db_folder in folders:
+        if db_folder.id == folder_id:
+            folder = db_folder
+            break
     if not folder:
         abort(404)
 
@@ -34,8 +38,17 @@ def abort_if_folder_not_found(folder_id):
 def get_unique_name_of_folder(user_id):
     t1 = time.time()
     session = create_session()
-    folders = session.query(Folder).filter(Folder.owner == user_id).all()
-    user = session.query(User).filter(User.id == user_id).first()
+    db_folders = session.query(Folder).all()
+    folders = []
+    for folder in db_folders:
+        if folder.owner == user_id:
+            folders.append(folder)
+    users = session.query(User).all()
+    user = None
+    for db_user in users:
+        if db_user.id == user_id:
+            user = db_user
+            break
     if folders:
         new_name = f'{user.nickname} folder {len(folders) + 1}'
     else:
@@ -56,7 +69,11 @@ class FoldersResource(Resource):
         if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
-        folder = db_sess.query(Folder).filter(Folder.id == folder_id).first()
+        folders = db_sess.query(Folder).all()
+        for db_folder in folders:
+            if db_folder.id == folder_id:
+                folder = db_folder
+                break
         if not folder:
             abort(422)
         t2 = time.time()
@@ -84,7 +101,11 @@ class FoldersResource(Resource):
             abort(400)
         abort_if_folder_not_found(folder_id)
         db_sess = create_session()
-        folder = db_sess.query(Folder).filter(Folder.id == folder_id).first()
+        folders = db_sess.query(Folder).all()
+        for db_folder in folders:
+            if db_folder.id == folder_id:
+                folder = db_folder
+                break
         if not folder:
             abort(422)
         db_sess.delete(folder)
@@ -114,7 +135,11 @@ class FoldersResource(Resource):
         if args.apikey != admin:
             abort(403)
         session = create_session()
-        folder = session.query(Folder).filter(Folder.id == folder_id).first()
+        folders = session.query(Folder).all()
+        for db_folder in folders:
+            if db_folder.id == folder_id:
+                folder = db_folder
+                break
         if not folder:
             abort(422)
         session.delete(folder)
@@ -135,7 +160,11 @@ class FoldersListResource(Resource):
             abort(403)
         db_sess = create_session()
         try:
-            folders = db_sess.query(Folder).filter(Folder.owner == user_id).all()
+            folders = []
+            db_folders = db_sess.query(Folder).all()
+            for db_folder in db_folders:
+                if db_folder.owner == user_id:
+                    folders.append(db_folder)
         except sqlalchemy.exc.TimeoutError:
             abort(500)
         if not folders:

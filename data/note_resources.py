@@ -25,7 +25,11 @@ def match_name(string: str, pattern: str) -> bool:
 
 def abort_if_note_not_found(note_id):
     session = create_session()
-    note = session.query(Note).filter(Note.id == note_id).first()
+    db_notes = session.query(Note).all()
+    for db_note in db_notes:
+        if db_note.id == note_id:
+            note = db_note
+            break
     if not note:
         abort(404)
 
@@ -33,8 +37,16 @@ def abort_if_note_not_found(note_id):
 def get_unique_name_of_note(user_id, folder_id):
     t1 = time.time()
     session = create_session()
-    notes = session.query(Note).filter(Note.the_folder == folder_id).all()
-    user = session.query(User).filter(User.id == user_id).first()
+    notes = []
+    db_notes = session.query(Note).all()
+    for note in db_notes:
+        if note.the_folder == folder_id:
+            notes.append(note)
+    users = session.query(User).all()
+    for db_user in users:
+        if db_user.id == user_id:
+            user = db_user
+            break
     if notes:
         new_name = f'{user.nickname} note {len(notes) + 1}'
     else:
@@ -55,7 +67,11 @@ class NotesResource(Resource):
         if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
-        note = db_sess.query(Note).filter(Note.id == note_id).first()
+        notes = db_sess.query(Note).all()
+        for db_note in notes:
+            if db_note.id == note_id:
+                note = db_note
+                break
         if not note:
             abort(422)
         t2 = time.time()
@@ -83,7 +99,11 @@ class NotesResource(Resource):
             abort(400)
         abort_if_note_not_found(note_id)
         db_sess = create_session()
-        note = db_sess.query(Note).filter(Note.id == note_id).first()
+        notes = db_sess.query(Note).all()
+        for db_note in notes:
+            if db_note.id == note_id:
+                note = db_note
+                break
         if not note:
             abort(422)
         db_sess.delete(note)
@@ -113,7 +133,11 @@ class NotesResource(Resource):
         if args.apikey != admin:
             abort(403)
         session = create_session()
-        note = session.query(Note).filter(Note.id == note_id).first()
+        notes = session.query(Note).all()
+        for db_note in notes:
+            if db_note.id == note_id:
+                note = db_note
+                break
         if not note:
             abort(422)
         session.delete(note)
@@ -133,7 +157,11 @@ class NotesListResource(Resource):
         if args.apikey not in [free, pro, admin]:
             abort(403)
         db_sess = create_session()
-        notes = db_sess.query(Note).filter(Note.the_folder == folder_id).all()
+        notes = []
+        db_notes = db_sess.query(Note).all()
+        for db_note in db_notes:
+            if db_note.the_folder == folder_id:
+                notes.append(db_note)
         if not notes:
             abort(422)
         t2 = time.time()
