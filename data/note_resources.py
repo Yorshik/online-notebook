@@ -104,7 +104,7 @@ class NotesResource(Resource):
             }
         )
 
-    def delete(self, folder_id, note_id):
+    def delete(self, note_id):
         t1 = time.time()
         abort_if_note_not_found(note_id)
         try:
@@ -114,9 +114,7 @@ class NotesResource(Resource):
         if args.apikey != admin:
             abort(403)
         session = create_session()
-        note = session.query(Note).filter(
-            Note.id == note_id, Note.the_folder == folder_id
-        ).first()
+        note = session.query(Note).filter(Note.id == note_id).first()
         if not note:
             abort(422)
         session.delete(note)

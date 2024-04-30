@@ -3,7 +3,7 @@ import sys
 
 import requests
 from flask import Flask, render_template, request, redirect
-from flask_login import login_user, logout_user, LoginManager
+from flask_login import login_user, logout_user, LoginManager, login_required
 from flask_restful import Api
 
 from data import folder_resources
@@ -191,6 +191,24 @@ def add_folder():
         print('Сайт упал')
         print(f'Причина: {folder_req.text}')
         quit()
+    return redirect('/main')
+
+
+@app.route('/delete_note')
+# @login_required
+def delete_note():
+    global folder_note_id
+    requests.delete(f'http://127.0.0.1:9999/api/note/{folder_note_id}', json={'apikey': admin})
+    folder_note_id = None
+    return redirect('/main')
+
+
+@app.route('/delete_folder')
+# @login_required
+def delete_folder():
+    global user_folder_id
+    requests.delete(f'http://127.0.0.1:9999/api/folder/{user_folder_id}', json={'apikey': admin})
+    user_folder_id = None
     return redirect('/main')
 
 
