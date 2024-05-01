@@ -30,7 +30,6 @@ def get_user_by_nickname(user_nickname):
         if user.nickname == user_nickname:
             print(user)
             return user.id
-    return user.id
 
 
 class UsersResource(Resource):

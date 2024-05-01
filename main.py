@@ -1,5 +1,4 @@
 import datetime
-import sys
 
 import requests
 from flask import Flask, render_template, request, redirect
@@ -60,26 +59,30 @@ def index():
 def enter_code(user_id, nickname, email, code):
     if request.method == 'POST':
         if str(hash(request.form.get('code'))) == code:
+            return redirect(f"/enter_password/{nickname}/{email}/{user_id}")
+        return render_template('enter_code.html', message='Неверный код')
+    return render_template('enter_code.html')
+
+
+@app.route("/enter_password/<nickname>/<email>/<int:user_id>", methods=['GET', 'POST'])
+def enter_password(nickname, email, user_id):
+    if request.method == 'POST':
+        if request.form.get('pass1') == request.form.get('pass2'):
             json_data = {
                 'apikey': admin,
                 'nickname': nickname,
                 'email': email,
-                'password': '1234'
+                'password': request.form.get('pass1')
             }
             requests.delete(f'http://127.0.0.1:9999/api/user/{user_id}', json={'apikey': admin})
             req = requests.post(f'http://127.0.0.1:9999/api/users', json=json_data)
             if not req:
                 print('Сайт упал')
                 print(f'Причина: {req.text}')
-                sys.exit(1)
             new_user = User.from_dict(req.json()['user'])
             login_user(new_user)
-        return redirect("/enter_password")
-    return render_template('enter_code.html')
-
-
-@app.route("/enter_password")
-def enter_password():
+            return redirect('/main')
+        return render_template('enter_password.html', message='Пароли не совпадают')
     return render_template('enter_password.html')
 
 
@@ -88,9 +91,9 @@ def get_code():
     if request.method == 'POST':
         nickname = request.form.get('nickname')
         user_id = user_resources.get_user_by_nickname(nickname)
-        req = requests.get(f'http://127.0.0.1:9999/api/user/{user_id}', json={'apikey': admin})
-        if not req:
+        if not user_id:
             return render_template('forgot_password.html', message='User not found')
+        req = requests.get(f'http://127.0.0.1:9999/api/user/{user_id}', json={'apikey': admin})
         email = req.json()['user']['email']
         code = send_msg(email)
         return redirect(f'/enter_code/{user_id}/{nickname}/{email}/{hash(str(code))}')
